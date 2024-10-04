@@ -1,3 +1,6 @@
+
+import ButtonForm from "./ButtonForm";
+import CallToAskForm from "./CallToAskForm";
 import ImageComponent from "./Image/ImageComponent";
 import ImageForm from "./Image/ImageForm";
 import PageTitleComponent from "./PageTitle/PageTitleComponent";
@@ -9,5 +12,7 @@ export {
     ImageComponent,
     ImageForm,
     PageTitleComponent,
-    PageTitleForm
+    PageTitleForm,
+    CallToAskForm,
+    ButtonForm
 }

@@ -1,59 +1,76 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import{
-  PageTitleComponent,
-  ImageComponent
-} from "../components/index"
+import { useLocation } from 'react-router-dom';
+
 const PreviewPage = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { components } = location.state || {};
+  const { components } = location.state || { components: [] };
 
   return (
-    <div className="max-w-full mx-auto p-20 bg-white rounded mt-10">
-      <h1 className="text-3xl font-bold mb-4">Preview Components</h1>
+    <div className="max-w-full mx-auto p-8 bg-gray-100 rounded-lg shadow-md mt-10">
+      <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">Preview of Components</h1>
 
-      <div className='max-w-full shadow-lg border border-gray-200 p-10'>
-        {components && components.length > 0 ? (
-          components.map((component, index) => {
-            if (component.componentType === 'sectionTitle') {
+      {components.length === 0 ? (
+        <p className="text-center text-gray-600">No components added yet.</p>
+      ) : (
+        components.map((component, index) => {
+          switch (component.componentType) {
+            case 'button':
               return (
-                <PageTitleComponent
+                <button
                   key={index}
-                  title={component.title}
-                  subtitle={component.subtitle}
-                  titleColor={component.titleColor}
-                  subtitleColor={component.subtitleColor}
-                  titleFontFamily={component.titleFont} // Use the correct font prop
-                  subtitleFontFamily={component.subtitleFont} // Use the correct font prop
-                  titleFontSize={component.titleFontSize} // Pass font size prop
-                  subtitleFontSize={component.subtitleFontSize} // Pass font size prop
-                  textAlign={component.textAlign} // Pass alignment prop
-                />
+                  style={{
+                    backgroundColor: component.buttonColor,
+                    color: component.fontColor,
+                    fontSize: `${component.fontSize}px`,
+                    borderRadius: `${component.borderRadius}px`,
+                  }}
+                  className="p-3 mb-4 w-full shadow-md hover:opacity-80 transition duration-200"
+                >
+                  {component.buttonText}
+                </button>
               );
-            } else if (component.componentType === 'image') {
+            case 'sectionTitle':
               return (
-                <ImageComponent
-                  key={index}
-                  // Assuming you have defined props for Image component
-                  src={component.imageSrc} // You need to ensure this prop exists in the component state
-                  alt={component.imageAlt} // You need to ensure this prop exists in the component state
-                />
+                <div key={index} className="mb-4">
+                  <h2 style={{ color: component.titleColor }} className="text-2xl font-semibold">{component.title}</h2>
+                  <h3 style={{ color: component.subtitleColor }} className="text-xl">{component.subtitle}</h3>
+                </div>
               );
-            }
-            return null; // Fallback in case of unrecognized component types
-          })
-        ) : (
-          <p>No components added.</p>
-        )}
-      </div>
-
-      <button
-        onClick={() => navigate(-1)}
-        className="bg-blue-500 text-white p-3 rounded mt-4 hover:bg-blue-600 transition duration-200"
-      >
-        Go Back
-      </button>
+            case 'callToAsk':
+              return (
+                <div key={index} className="mb-4">
+                  <h4 className="text-lg font-semibold">Call to Ask:</h4>
+                  <p className="text-md">Phone Number: {component.phoneNumber}</p>
+                  <p className="text-md">Questions: {component.questions}</p>
+                  {component.icons && component.icons.length > 0 && (
+                    <div className="flex space-x-2 mt-2">
+                      {component.icons.map((icon, iconIndex) => (
+                        <img key={iconIndex} src={icon} alt={icon} className="w-6 h-6" />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            case 'image':
+              return (
+                <div key={index} className="mb-4">
+                  <img
+                    src={component.imageSrc}
+                    alt={component.altText}
+                    style={{
+                      width: component.width,
+                      height: component.height,
+                      borderRadius: `${component.borderRadius}px`,
+                      boxShadow: component.shadow,
+                    }}
+                  />
+                </div>
+              );
+            default:
+              return null;
+          }
+        })
+      )}
     </div>
   );
 };
