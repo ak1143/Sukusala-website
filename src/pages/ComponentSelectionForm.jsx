@@ -1,35 +1,43 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { PageTitleForm, ImageForm } from "../components/index";
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { PageTitleForm, ImageForm, ContactCardForm } from "../components/index";
 
 const components = [
-  { id: 'sectionTitle', name: 'Section Title' },
-  { id: 'image', name: 'Image' }, // Add Image to components
+  { id: "pageTitle", name: "Page Title" },
+  { id: "image", name: "Image" },
+  { id: "ContactCard", name: "Contact Card" },
 ];
 
 const ComponentSelectionForm = () => {
   const navigate = useNavigate();
-  const [selectedComponent, setSelectedComponent] = useState('');
+  const [selectedComponent, setSelectedComponent] = useState("");
+
   const [formData, setFormData] = useState({
-    title: '',
-    subtitle: '',
-    titleColor: '#000000',
-    subtitleColor: '#000000',
-    titleFont: 'Arial',
-    subtitleFont: 'Arial',
-    titleFontSize: 'text-4xl',
-    subtitleFontSize: 'text-xl',
-    textAlign: 'left',
+    title: "",
+    subtitle: "",
+    titleColor: "#000000",
+    subtitleColor: "#000000",
+    titleFont: "Arial",
+    subtitleFont: "Arial",
+    titleFontSize: "text-4xl",
+    subtitleFontSize: "text-xl",
+    textAlign: "left",
   });
+
   const [imageData, setImageData] = useState({
-    width: '',
-    height: '',
-    altText: '',
-    borderRadius: '',
-    shadow: '',
+    width: "",
+    height: "",
+    altText: "",
+    borderRadius: "",
+    shadow: "",
     imageSrc: null,
   });
+
+  const [contactCardData, setContactCardData] = useState({
+    text: "",
+    Phno:"",
+  });
+
   const [addedComponents, setAddedComponents] = useState([]);
 
   const handleComponentChange = (e) => {
@@ -38,10 +46,12 @@ const ComponentSelectionForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (selectedComponent === 'sectionTitle') {
+    if (selectedComponent === "pageTitle") {
       setFormData({ ...formData, [name]: value });
-    } else if (selectedComponent === 'image') {
+    } else if (selectedComponent === "image") {
       setImageData({ ...imageData, [name]: value });
+    } else if (selectedComponent === "ContactCard") {
+      setContactCardData({ ...contactCardData, [name]: value });
     }
   };
 
@@ -59,41 +69,49 @@ const ComponentSelectionForm = () => {
 
   const handleAddComponent = () => {
     if (selectedComponent) {
-      const newComponent = selectedComponent === 'sectionTitle' 
-        ? { ...formData, componentType: selectedComponent }
-        : { ...imageData, componentType: selectedComponent };
+      const newComponent =
+        selectedComponent === "pageTitle"
+          ? { ...formData, componentType: selectedComponent }
+          : selectedComponent === "image"
+          ? { ...imageData, componentType: selectedComponent }
+          : { ...contactCardData, componentType: selectedComponent }; // ContactCard handling
 
       setAddedComponents([...addedComponents, newComponent]);
-      
+
       // Reset form data
-      if (selectedComponent === 'sectionTitle') {
+      if (selectedComponent === "pageTitle") {
         setFormData({
-          title: '',
-          subtitle: '',
-          titleColor: '#000000',
-          subtitleColor: '#000000',
-          titleFont: 'Arial',
-          subtitleFont: 'Arial',
-          titleFontSize: 'text-4xl',
-          subtitleFontSize: 'text-xl',
-          textAlign: 'left',
+          title: "",
+          subtitle: "",
+          titleColor: "#000000",
+          subtitleColor: "#000000",
+          titleFont: "Arial",
+          subtitleFont: "Arial",
+          titleFontSize: "text-4xl",
+          subtitleFontSize: "text-xl",
+          textAlign: "left",
         });
-      } else if (selectedComponent === 'image') {
+      } else if (selectedComponent === "image") {
         setImageData({
-          width: '',
-          height: '',
-          altText: '',
-          borderRadius: '',
-          shadow: '',
+          width: "",
+          height: "",
+          altText: "",
+          borderRadius: "",
+          shadow: "",
           imageSrc: null,
         });
+      } else if (selectedComponent === "ContactCard") {
+        setContactCardData({
+          text: "",
+          Phno: "",
+        });
       }
-      setSelectedComponent('');
+      setSelectedComponent("");
     }
   };
 
   const handlePreview = () => {
-    navigate('/preview', { state: { components: addedComponents } });
+    navigate("/preview", { state: { components: addedComponents } });
   };
 
   return (
@@ -113,26 +131,36 @@ const ComponentSelectionForm = () => {
         ))}
       </select>
 
-      {selectedComponent === 'sectionTitle' && (
-        <PageTitleForm formData={formData} handleInputChange={handleInputChange} />
+      {selectedComponent === "pageTitle" && (
+        <PageTitleForm
+          formData={formData}
+          handleInputChange={handleInputChange}
+        />
       )}
 
-      {selectedComponent === 'image' && (
-        <ImageForm 
-          formData={imageData} 
-          handleInputChange={handleInputChange} 
-          handleImageUpload={handleImageUpload} 
+      {selectedComponent === "image" && (
+        <ImageForm
+          formData={imageData}
+          handleInputChange={handleInputChange}
+          handleImageUpload={handleImageUpload}
+        />
+      )}
+
+      {selectedComponent === "ContactCard" && (
+        <ContactCardForm
+          formData={contactCardData}
+          handleInputChange={handleInputChange}
         />
       )}
 
       <div className="mt-4">
-        <button 
+        <button
           onClick={handleAddComponent}
           className="bg-blue-500 text-white p-3 rounded mr-2 hover:bg-blue-600 transition duration-200"
         >
           Add Component
         </button>
-        <button 
+        <button
           onClick={handlePreview}
           className="bg-green-500 text-white p-3 rounded hover:bg-green-600 transition duration-200"
         >

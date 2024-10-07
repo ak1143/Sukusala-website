@@ -4,6 +4,8 @@ import{
   PageTitleComponent,
   ImageComponent
 } from "../components/index"
+
+
 const PreviewPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ const PreviewPage = () => {
       <div className='max-w-full shadow-lg border border-gray-200 p-10'>
         {components && components.length > 0 ? (
           components.map((component, index) => {
-            if (component.componentType === 'sectionTitle') {
+            if (component.componentType === 'pageTitle') {
               return (
                 <PageTitleComponent
                   key={index}
