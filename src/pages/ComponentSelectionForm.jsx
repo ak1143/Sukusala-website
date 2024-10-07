@@ -1,27 +1,27 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { PageTitleForm, ImageForm, ContactCardForm } from "../components/index";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PageTitleForm, ImageForm } from "../components/index";
+
 
 const components = [
-  { id: "pageTitle", name: "Page Title" },
-  { id: "image", name: "Image" },
-  { id: "ContactCard", name: "Contact Card" },
+  { id: 'sectionTitle', name: 'Section Title' },
+  { id: 'image', name: 'Image' }, // Add Image to components
 ];
 
-const ComponentSelectionForm = () => {
+const ComponentSelection = () => {
   const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState("");
 
   const [formData, setFormData] = useState({
-    title: "",
-    subtitle: "",
-    titleColor: "#000000",
-    subtitleColor: "#000000",
-    titleFont: "Arial",
-    subtitleFont: "Arial",
-    titleFontSize: "text-4xl",
-    subtitleFontSize: "text-xl",
-    textAlign: "left",
+    title: '',
+    subtitle: '',
+    titleColor: '#000000',
+    subtitleColor: '#000000',
+    titleFont: 'Arial',
+    subtitleFont: 'Arial',
+    titleFontSize: 'text-4xl',
+    subtitleFontSize: 'text-xl',
+    textAlign: 'left',
   });
 
   const [imageData, setImageData] = useState({
@@ -46,12 +46,10 @@ const ComponentSelectionForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (selectedComponent === "pageTitle") {
+    if (selectedComponent === 'sectionTitle') {
       setFormData({ ...formData, [name]: value });
-    } else if (selectedComponent === "image") {
+    } else if (selectedComponent === 'image') {
       setImageData({ ...imageData, [name]: value });
-    } else if (selectedComponent === "ContactCard") {
-      setContactCardData({ ...contactCardData, [name]: value });
     }
   };
 
@@ -60,8 +58,7 @@ const ComponentSelectionForm = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64Image = reader.result;
-        setImageData((prev) => ({ ...prev, imageSrc: base64Image }));
+        setImageData((prev) => ({ ...prev, imageSrc: reader.result }));
       };
       reader.readAsDataURL(file);
     }
@@ -69,80 +66,118 @@ const ComponentSelectionForm = () => {
 
   const handleAddComponent = () => {
     if (selectedComponent) {
-      const newComponent =
-        selectedComponent === "pageTitle"
-          ? { ...formData, componentType: selectedComponent }
-          : selectedComponent === "image"
-          ? { ...imageData, componentType: selectedComponent }
-          : { ...contactCardData, componentType: selectedComponent }; // ContactCard handling
+      const newComponent = selectedComponent === 'sectionTitle' 
+        ? { ...formData, componentType: selectedComponent }
+        : { ...imageData, componentType: selectedComponent };
 
       setAddedComponents([...addedComponents, newComponent]);
-
+      
       // Reset form data
-      if (selectedComponent === "pageTitle") {
+      if (selectedComponent === 'sectionTitle') {
         setFormData({
-          title: "",
-          subtitle: "",
-          titleColor: "#000000",
-          subtitleColor: "#000000",
-          titleFont: "Arial",
-          subtitleFont: "Arial",
-          titleFontSize: "text-4xl",
-          subtitleFontSize: "text-xl",
-          textAlign: "left",
+          title: '',
+          subtitle: '',
+          titleColor: '#000000',
+          subtitleColor: '#000000',
+          titleFont: 'Arial',
+          subtitleFont: 'Arial',
+          titleFontSize: 'text-4xl',
+          subtitleFontSize: 'text-xl',
+          textAlign: 'left',
         });
-      } else if (selectedComponent === "image") {
+      } else if (selectedComponent === 'image') {
         setImageData({
-          width: "",
-          height: "",
-          altText: "",
-          borderRadius: "",
-          shadow: "",
+          width: '',
+          height: '',
+          altText: '',
+          borderRadius: '',
+          shadow: '',
           imageSrc: null,
         });
-      } else if (selectedComponent === "ContactCard") {
-        setContactCardData({
-          text: "",
-          Phno: "",
-        });
       }
-      setSelectedComponent("");
+      setSelectedComponent('');
     }
+
+    let newComponent = {};
+
+    switch (selectedComponent) {
+      case 'sectionTitle':
+        if (!formData.title || !formData.subtitle) {
+          alert('Please fill out all Section Title fields.');
+          return;
+        }
+        newComponent = { ...formData, componentType: selectedComponent };
+        break;
+      case 'image':
+        if (!imageData.imageSrc || !imageData.altText) {
+          alert('Please fill out all Image fields.');
+          return;
+        }
+        newComponent = { ...imageData, componentType: selectedComponent };
+        break;
+      case 'callToAsk':
+        if (
+          !formData.name ||
+          !formData.email ||
+          !formData.phoneNumber ||
+          !formData.inquiryType ||
+          !formData.questions
+        ) {
+          alert('Please fill out all Call to Ask fields.');
+          return;
+        }
+        newComponent = { ...formData, componentType: selectedComponent };
+        break;
+      case 'button':
+        if (!formData.buttonText) {
+          alert('Please enter the button text.');
+          return;
+        }
+        newComponent = { ...formData, componentType: selectedComponent };
+        break;
+      default:
+        alert('Unknown component type.');
+        return;
+    }
+
+    setAddedComponents((prev) => [...prev, newComponent]);
+    resetFormData();
+    setSelectedComponent('');
   };
 
   const handlePreview = () => {
-    navigate("/preview", { state: { components: addedComponents } });
+    navigate('/preview', { state: { components: addedComponents } });
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded shadow-lg mt-10">
-      <h1 className="text-3xl font-bold mb-4">Component Selection Form</h1>
-      <label className="block mb-2">Select Component:</label>
-      <select
-        value={selectedComponent}
-        onChange={handleComponentChange}
-        className="border border-gray-300 p-3 mb-4 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        <option value="">-- Select --</option>
-        {components.map((component) => (
-          <option key={component.id} value={component.id}>
-            {component.name}
-          </option>
-        ))}
-      </select>
+    <div className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg mt-10">
+      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Component Selection</h1>
 
-      {selectedComponent === "pageTitle" && (
-        <PageTitleForm
-          formData={formData}
-          handleInputChange={handleInputChange}
-        />
+      <div className="mb-6">
+        <label className="block mb-2 text-lg font-medium text-gray-700">Select Component Type:</label>
+        <select
+          value={selectedComponent}
+          onChange={handleComponentChange}
+          className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          <option value="">-- Select Component Type --</option>
+          {componentsList.map((component) => (
+            <option key={component.id} value={component.id}>
+              {component.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {selectedComponent === 'sectionTitle' && (
+        <PageTitleForm formData={formData} handleInputChange={handleInputChange} />
       )}
 
-      {selectedComponent === "image" && (
-        <ImageForm
-          formData={imageData}
-          handleInputChange={handleInputChange}
-          handleImageUpload={handleImageUpload}
+      {selectedComponent === 'image' && (
+        <ImageForm 
+          formData={imageData} 
+          handleInputChange={handleInputChange} 
+          handleImageUpload={handleImageUpload} 
         />
       )}
 
@@ -154,21 +189,21 @@ const ComponentSelectionForm = () => {
       )}
 
       <div className="mt-4">
-        <button
+        <button 
           onClick={handleAddComponent}
-          className="bg-blue-500 text-white p-3 rounded mr-2 hover:bg-blue-600 transition duration-200"
+          className="bg-blue-600 text-white p-3 rounded-md shadow-md hover:bg-blue-700 transition duration-200 flex-1"
         >
           Add Component
         </button>
         <button
           onClick={handlePreview}
-          className="bg-green-500 text-white p-3 rounded hover:bg-green-600 transition duration-200"
+          className="bg-green-600 text-white p-3 rounded-md shadow-md hover:bg-green-700 transition duration-200 flex-1"
         >
-          Preview
+          Preview Components
         </button>
       </div>
     </div>
   );
 };
 
-export default ComponentSelectionForm;
+export default ComponentSelection;
