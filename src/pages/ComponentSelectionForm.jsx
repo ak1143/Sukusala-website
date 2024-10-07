@@ -1,26 +1,44 @@
+// src/components/ComponentSelection.js
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PageTitleForm, ImageForm } from "../components/index";
+import { PageTitleForm, ImageForm, CallToAskForm, ButtonForm } from "../components/index";
 
-
-const components = [
+const componentsList = [
   { id: 'sectionTitle', name: 'Section Title' },
-  { id: 'image', name: 'Image' }, // Add Image to components
+  { id: 'image', name: 'Image' },
+  { id: 'callToAsk', name: 'Call to Ask' },
+  { id: 'button', name: 'Button' },
 ];
 
-const ComponentSelectionForm = () => {
+const ComponentSelection = () => {
   const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState('');
   const [formData, setFormData] = useState({
+    // Section Title Fields
     title: '',
     subtitle: '',
     titleColor: '#000000',
     subtitleColor: '#000000',
-    titleFont: 'Arial',
-    subtitleFont: 'Arial',
-    titleFontSize: 'text-4xl',
-    subtitleFontSize: 'text-xl',
-    textAlign: 'left',
+
+    // Call to Ask Fields
+    name: '',
+    email: '',
+    phoneNumber: '',
+    inquiryType: '',
+    questions: '',
+    icons: [],
+    address: '',
+    preferredContactTime: '',
+    additionalNotes: '',
+    attachment: null,
+
+    // Button Fields
+    buttonText: '',
+    buttonColor: '#007BFF',
+    fontSize: 16,
+    fontColor: '#FFFFFF',
+    borderRadius: 5,
   });
   const [imageData, setImageData] = useState({
     width: '',
@@ -37,11 +55,27 @@ const ComponentSelectionForm = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked, files } = e.target;
+
     if (selectedComponent === 'sectionTitle') {
-      setFormData({ ...formData, [name]: value });
+      setFormData((prev) => ({ ...prev, [name]: value }));
     } else if (selectedComponent === 'image') {
-      setImageData({ ...imageData, [name]: value });
+      setImageData((prev) => ({ ...prev, [name]: value }));
+    } else if (selectedComponent === 'callToAsk') {
+      if (type === 'checkbox') {
+        setFormData((prev) => {
+          const icons = checked
+            ? [...prev.icons, value]
+            : prev.icons.filter((icon) => icon !== value);
+          return { ...prev, icons };
+        });
+      } else if (name === 'attachment') {
+        setFormData((prev) => ({ ...prev, attachment: files[0] }));
+      } else {
+        setFormData((prev) => ({ ...prev, [name]: value }));
+      }
+    } else if (selectedComponent === 'button') {
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -50,97 +84,181 @@ const ComponentSelectionForm = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64Image = reader.result;
-        setImageData((prev) => ({ ...prev, imageSrc: base64Image }));
+        setImageData((prev) => ({ ...prev, imageSrc: reader.result }));
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleAddComponent = () => {
-    if (selectedComponent) {
-      const newComponent = selectedComponent === 'sectionTitle' 
-        ? { ...formData, componentType: selectedComponent }
-        : { ...imageData, componentType: selectedComponent };
-
-      setAddedComponents([...addedComponents, newComponent]);
-      
-      // Reset form data
-      if (selectedComponent === 'sectionTitle') {
-        setFormData({
-          title: '',
-          subtitle: '',
-          titleColor: '#000000',
-          subtitleColor: '#000000',
-          titleFont: 'Arial',
-          subtitleFont: 'Arial',
-          titleFontSize: 'text-4xl',
-          subtitleFontSize: 'text-xl',
-          textAlign: 'left',
-        });
-      } else if (selectedComponent === 'image') {
-        setImageData({
-          width: '',
-          height: '',
-          altText: '',
-          borderRadius: '',
-          shadow: '',
-          imageSrc: null,
-        });
-      }
-      setSelectedComponent('');
+  const resetFormData = () => {
+    if (selectedComponent === 'sectionTitle') {
+      setFormData((prev) => ({
+        ...prev,
+        title: '',
+        subtitle: '',
+        titleColor: '#000000',
+        subtitleColor: '#000000',
+      }));
+    } else if (selectedComponent === 'image') {
+      setImageData({
+        width: '',
+        height: '',
+        altText: '',
+        borderRadius: '',
+        shadow: '',
+        imageSrc: null,
+      });
+    } else if (selectedComponent === 'callToAsk') {
+      setFormData((prev) => ({
+        ...prev,
+        name: '',
+        email: '',
+        phoneNumber: '',
+        inquiryType: '',
+        questions: '',
+        icons: [],
+        address: '',
+        preferredContactTime: '',
+        additionalNotes: '',
+        attachment: null,
+      }));
+    } else if (selectedComponent === 'button') {
+      setFormData((prev) => ({
+        ...prev,
+        buttonText: '',
+        buttonColor: '#007BFF',
+        fontSize: 16,
+        fontColor: '#FFFFFF',
+        borderRadius: 5,
+      }));
     }
   };
 
+  const handleAddComponent = () => {
+    if (!selectedComponent) {
+      alert('Please select a component type.');
+      return;
+    }
+
+    let newComponent = {};
+
+    switch (selectedComponent) {
+      case 'sectionTitle':
+        if (!formData.title || !formData.subtitle) {
+          alert('Please fill out all Section Title fields.');
+          return;
+        }
+        newComponent = { ...formData, componentType: selectedComponent };
+        break;
+      case 'image':
+        if (!imageData.imageSrc || !imageData.altText) {
+          alert('Please fill out all Image fields.');
+          return;
+        }
+        newComponent = { ...imageData, componentType: selectedComponent };
+        break;
+      case 'callToAsk':
+        if (
+          !formData.name ||
+          !formData.email ||
+          !formData.phoneNumber ||
+          !formData.inquiryType ||
+          !formData.questions
+        ) {
+          alert('Please fill out all Call to Ask fields.');
+          return;
+        }
+        newComponent = { ...formData, componentType: selectedComponent };
+        break;
+      case 'button':
+        if (!formData.buttonText) {
+          alert('Please enter the button text.');
+          return;
+        }
+        newComponent = { ...formData, componentType: selectedComponent };
+        break;
+      default:
+        alert('Unknown component type.');
+        return;
+    }
+
+    setAddedComponents((prev) => [...prev, newComponent]);
+    resetFormData();
+    setSelectedComponent('');
+  };
+
   const handlePreview = () => {
+    if (addedComponents.length === 0) {
+      alert('Please add at least one component to preview.');
+      return;
+    }
     navigate('/preview', { state: { components: addedComponents } });
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded shadow-lg mt-10">
-      <h1 className="text-3xl font-bold mb-4">Component Selection Form</h1>
-      <label className="block mb-2">Select Component:</label>
-      <select
-        value={selectedComponent}
-        onChange={handleComponentChange}
-        className="border border-gray-300 p-3 mb-4 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        <option value="">-- Select --</option>
-        {components.map((component) => (
-          <option key={component.id} value={component.id}>
-            {component.name}
-          </option>
-        ))}
-      </select>
+    <div className="max-w-4xl mx-auto p-8 bg-white rounded-lg shadow-lg mt-10">
+      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Component Selection</h1>
 
+      <div className="mb-6">
+        <label className="block mb-2 text-lg font-medium text-gray-700">Select Component Type:</label>
+        <select
+          value={selectedComponent}
+          onChange={handleComponentChange}
+          className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          <option value="">-- Select Component Type --</option>
+          {componentsList.map((component) => (
+            <option key={component.id} value={component.id}>
+              {component.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Render Forms Based on Selected Component */}
       {selectedComponent === 'sectionTitle' && (
         <PageTitleForm formData={formData} handleInputChange={handleInputChange} />
       )}
 
       {selectedComponent === 'image' && (
-        <ImageForm 
-          formData={imageData} 
-          handleInputChange={handleInputChange} 
-          handleImageUpload={handleImageUpload} 
+        <ImageForm
+          formData={imageData}
+          handleInputChange={handleInputChange}
+          handleImageUpload={handleImageUpload}
         />
       )}
 
-      <div className="mt-4">
-        <button 
+      {selectedComponent === 'callToAsk' && (
+        <CallToAskForm
+          formData={formData}
+          handleInputChange={handleInputChange}
+        />
+      )}
+
+      {selectedComponent === 'button' && (
+        <ButtonForm
+          formData={formData}
+          handleInputChange={handleInputChange}
+        />
+      )}
+
+      {/* Action Buttons */}
+      <div className="flex space-x-4 mt-8">
+        <button
           onClick={handleAddComponent}
-          className="bg-blue-500 text-white p-3 rounded mr-2 hover:bg-blue-600 transition duration-200"
+          className="bg-blue-600 text-white p-3 rounded-md shadow-md hover:bg-blue-700 transition duration-200 flex-1"
         >
           Add Component
         </button>
-        <button 
+        <button
           onClick={handlePreview}
-          className="bg-green-500 text-white p-3 rounded hover:bg-green-600 transition duration-200"
+          className="bg-green-600 text-white p-3 rounded-md shadow-md hover:bg-green-700 transition duration-200 flex-1"
         >
-          Preview
+          Preview Components
         </button>
       </div>
     </div>
   );
 };
 
-export default ComponentSelectionForm;
+export default ComponentSelection;
