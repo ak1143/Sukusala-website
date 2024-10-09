@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CallToAskComponent, ButtonFormComponent, ImageComponent, ContactFormComponent } from '../components/index';
+import { CallToAskComponent, ButtonFormComponent, ImageComponent } from '../components/index';
 
 const PreviewPage = () => {
   const location = useLocation();
