@@ -11,62 +11,59 @@ const componentsList = [
   { id: 'button', name: 'Button' },
 ];
 
+const initialFormData = {
+  title: '',
+  subtitle: '',
+  titleColor: '#000000',
+  subtitleColor: '#000000',
+  name: '',
+  email: '',
+  phoneNumber: '',
+  inquiryType: '',
+  questions: '',
+  icons: [],
+  address: '',
+  preferredContactTime: '',
+  additionalNotes: '',
+  attachment: null,
+  buttonText: '',
+  buttonColor: '#007BFF',
+  fontSize: 16,
+  fontColor: '#FFFFFF',
+  borderRadius: 5,
+  contactName: '',
+  contactEmail: '',
+  contactMessage: '',
+};
+
+const initialImageData = {
+  width: '',
+  height: '',
+  altText: '',
+  borderRadius: '',
+  shadow: '',
+  imageSrc: null,
+};
+
 const ComponentSelection = () => {
   const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState('');
-  const [formData, setFormData] = useState({
-    // Section Title Fields
-    title: '',
-    subtitle: '',
-    titleColor: '#000000',
-    subtitleColor: '#000000',
-
-    // Call to Ask Fields
-    name: '',
-    email: '',
-    phoneNumber: '',
-    inquiryType: '',
-    questions: '',
-    icons: [],
-    address: '',
-    preferredContactTime: '',
-    additionalNotes: '',
-    attachment: null,
-
-    // Button Fields
-    buttonText: '',
-    buttonColor: '#007BFF',
-    fontSize: 16,
-    fontColor: '#FFFFFF',
-    borderRadius: 5,
-  });
-  const [imageData, setImageData] = useState({
-    width: '',
-    height: '',
-    altText: '',
-    borderRadius: '',
-    shadow: '',
-    imageSrc: null,
-  });
+  const [formData, setFormData] = useState(initialFormData);
+  const [imageData, setImageData] = useState(initialImageData);
   const [addedComponents, setAddedComponents] = useState([]);
 
   const handleComponentChange = (e) => {
     setSelectedComponent(e.target.value);
+    resetFormData(e.target.value);
   };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
-    if (selectedComponent === 'sectionTitle') {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    } else if (selectedComponent === 'image') {
-      setImageData((prev) => ({ ...prev, [name]: value }));
-    } else if (selectedComponent === 'callToAsk') {
+    if (selectedComponent === 'callToAsk') {
       if (type === 'checkbox') {
         setFormData((prev) => {
-          const icons = checked
-            ? [...prev.icons, value]
-            : prev.icons.filter((icon) => icon !== value);
+          const icons = checked ? [...prev.icons, value] : prev.icons.filter((icon) => icon !== value);
           return { ...prev, icons };
         });
       } else if (name === 'attachment') {
@@ -74,7 +71,9 @@ const ComponentSelection = () => {
       } else {
         setFormData((prev) => ({ ...prev, [name]: value }));
       }
-    } else if (selectedComponent === 'button') {
+    } else if (selectedComponent === 'image') {
+      setImageData((prev) => ({ ...prev, [name]: value }));
+    } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
@@ -90,47 +89,17 @@ const ComponentSelection = () => {
     }
   };
 
-  const resetFormData = () => {
-    if (selectedComponent === 'sectionTitle') {
-      setFormData((prev) => ({
-        ...prev,
-        title: '',
-        subtitle: '',
-        titleColor: '#000000',
-        subtitleColor: '#000000',
-      }));
-    } else if (selectedComponent === 'image') {
-      setImageData({
-        width: '',
-        height: '',
-        altText: '',
-        borderRadius: '',
-        shadow: '',
-        imageSrc: null,
-      });
-    } else if (selectedComponent === 'callToAsk') {
-      setFormData((prev) => ({
-        ...prev,
-        name: '',
-        email: '',
-        phoneNumber: '',
-        inquiryType: '',
-        questions: '',
-        icons: [],
-        address: '',
-        preferredContactTime: '',
-        additionalNotes: '',
-        attachment: null,
-      }));
-    } else if (selectedComponent === 'button') {
-      setFormData((prev) => ({
-        ...prev,
-        buttonText: '',
-        buttonColor: '#007BFF',
-        fontSize: 16,
-        fontColor: '#FFFFFF',
-        borderRadius: 5,
-      }));
+  const resetFormData = (component) => {
+    if (component === 'image') {
+      setImageData(initialImageData);
+    } else if (component === 'callToAsk') {
+      setFormData(initialFormData);
+    } else if (component === 'button') {
+      setFormData((prev) => ({ ...prev, buttonText: '', buttonColor: '#007BFF', fontSize: 16, fontColor: '#FFFFFF', borderRadius: 5 }));
+    } else if (component === 'contact') {
+      setFormData((prev) => ({ ...prev, contactName: '', contactEmail: '', contactMessage: '' }));
+    } else {
+      setFormData(initialFormData);
     }
   };
 
@@ -141,40 +110,27 @@ const ComponentSelection = () => {
     }
 
     let newComponent = {};
+    let isValid = true;
 
     switch (selectedComponent) {
       case 'sectionTitle':
-        if (!formData.title || !formData.subtitle) {
-          alert('Please fill out all Section Title fields.');
-          return;
-        }
+        isValid = formData.title && formData.subtitle;
         newComponent = { ...formData, componentType: selectedComponent };
         break;
       case 'image':
-        if (!imageData.imageSrc || !imageData.altText) {
-          alert('Please fill out all Image fields.');
-          return;
-        }
+        isValid = imageData.imageSrc && imageData.altText;
         newComponent = { ...imageData, componentType: selectedComponent };
         break;
       case 'callToAsk':
-        if (
-          !formData.name ||
-          !formData.email ||
-          !formData.phoneNumber ||
-          !formData.inquiryType ||
-          !formData.questions
-        ) {
-          alert('Please fill out all Call to Ask fields.');
-          return;
-        }
+        isValid = formData.name && formData.email && formData.phoneNumber && formData.inquiryType && formData.questions;
         newComponent = { ...formData, componentType: selectedComponent };
         break;
       case 'button':
-        if (!formData.buttonText) {
-          alert('Please enter the button text.');
-          return;
-        }
+        isValid = formData.buttonText;
+        newComponent = { ...formData, componentType: selectedComponent };
+        break;
+      case 'contact':
+        isValid = formData.contactName && formData.contactEmail && formData.contactMessage;
         newComponent = { ...formData, componentType: selectedComponent };
         break;
       default:
@@ -182,9 +138,13 @@ const ComponentSelection = () => {
         return;
     }
 
-    setAddedComponents((prev) => [...prev, newComponent]);
-    resetFormData();
-    setSelectedComponent('');
+    if (isValid) {
+      setAddedComponents((prev) => [...prev, newComponent]);
+      resetFormData(selectedComponent);
+      setSelectedComponent('');
+    } else {
+      alert(`Please fill out all fields for ${selectedComponent.replace(/([A-Z])/g, ' $1').trim()}.`);
+    }
   };
 
   const handlePreview = () => {
@@ -219,7 +179,6 @@ const ComponentSelection = () => {
       {selectedComponent === 'sectionTitle' && (
         <PageTitleForm formData={formData} handleInputChange={handleInputChange} />
       )}
-
       {selectedComponent === 'image' && (
         <ImageForm
           formData={imageData}
@@ -227,20 +186,15 @@ const ComponentSelection = () => {
           handleImageUpload={handleImageUpload}
         />
       )}
-
       {selectedComponent === 'callToAsk' && (
-        <CallToAskForm
-          formData={formData}
-          handleInputChange={handleInputChange}
-        />
+        <CallToAskForm formData={formData} handleInputChange={handleInputChange} />
       )}
-
       {selectedComponent === 'button' && (
-        <ButtonForm
-          formData={formData}
-          handleInputChange={handleInputChange}
-        />
+        <ButtonForm formData={formData} handleInputChange={handleInputChange} />
       )}
+      {/* {selectedComponent === 'contact' && (
+        <ContactForm formData={formData} handleInputChange={handleInputChange} />
+      )} */}
 
       {/* Action Buttons */}
       <div className="flex space-x-4 mt-8">

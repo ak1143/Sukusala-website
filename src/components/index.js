@@ -1,13 +1,13 @@
+// src/components/index.js
 
-import ButtonForm from "./Button/ButtonForm";
-import CallToAskForm from "./CallToAsk/CallToAskForm";
-import CallToAskComponent from "./CallToAsk/CallToAskComponent";
-import ImageComponent from "./Image/ImageComponent";
-import ImageForm from "./Image/ImageForm";
-import PageTitleComponent from "./PageTitle/PageTitleComponent";
-import PageTitleForm from "./PageTitle/PageTitleForm";
-
-
+import ButtonForm from "./Button/ButtonForm.jsx";
+import CallToAskForm from "./CallToAsk/CallToAskForm.jsx";
+import CallToAskComponent from "./CallToAsk/CallToAskComponent.jsx";
+import ImageComponent from "./Image/ImageComponent.jsx";
+import ImageForm from "./Image/ImageForm.jsx";
+import PageTitleComponent from "./PageTitle/PageTitleComponent.jsx";
+import PageTitleForm from "./PageTitle/PageTitleForm.jsx";
+import ButtonFormComponent from "./Button/ButtonFormComponent.jsx";
 
 export {
     ImageComponent,
@@ -16,5 +16,6 @@ export {
     PageTitleForm,
     CallToAskComponent,
     CallToAskForm,
-    ButtonForm
-}
+    ButtonForm,
+    ButtonFormComponent     
+};
