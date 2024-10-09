@@ -1,4 +1,3 @@
-
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CallToAskComponent, MapComponent, ParagraphComponent, ServiceCardComponent } from '../components'; // Ensure MapComponent is imported
 import ButtonFormComponent from '../components/Button/ButtonFormComponent';
@@ -68,17 +67,32 @@ const PreviewPage = () => {
                 </div>
               );
 
-              case 'paragraph': // Added case for the paragraph component
+            case 'paragraph': // Added case for the paragraph component
               return (
                 <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
                   <ParagraphComponent formData={component} />
                 </div>
               );
 
-              case 'serviceCard': // Added case for the Service Card component
+            case 'serviceCard': // Added case for the Service Card component
               return (
                 <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
                   <ServiceCardComponent formData={component} />
+                </div>
+              );
+
+            case 'serviceList': // Added case for the Service List component
+              return (
+                <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
+                  <h2 className="text-2xl font-semibold mb-4">Services</h2>
+                  {component.services.map((service, idx) => (
+                    <div key={idx} className="flex items-center mb-2">
+                      <span className="mr-4">
+                        {service.icon === 'reply' ? '📧' : '📞'}
+                      </span>
+                      <p>{service.text}</p>
+                    </div>
+                  ))}
                 </div>
               );
 

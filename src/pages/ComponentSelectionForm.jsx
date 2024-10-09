@@ -99,7 +99,7 @@ const ComponentSelection = () => {
     setSelectedComponent(e.target.value);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e, index) => {
     const { name, value, type, checked, files } = e.target;
 
     switch (selectedComponent) {
@@ -146,11 +146,19 @@ const ComponentSelection = () => {
         setServiceCardData((prev) => ({ ...prev, [name]: value }));
         break;
 
-      case "serviceList":
-        const updatedServices = [...serviceListData];
-        updatedServices[index][name] = value;
-        setServiceListData(updatedServices);
-        break;
+        case "serviceList":
+          const updatedServices = [...serviceListData];
+          const { name, value } = e.target;
+        
+          if (name.startsWith("text")) {
+            updatedServices[index].text = value; // Update the text of the specific service
+          } else if (name.startsWith("icon")) {
+            updatedServices[index].icon = value; // Update the icon of the specific service
+          }
+        
+          setServiceListData(updatedServices); // Set updated list
+          break;
+        
 
       default:
         break;
