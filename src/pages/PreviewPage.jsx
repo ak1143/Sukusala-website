@@ -1,6 +1,6 @@
-import React from 'react';
+
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CallToAskComponent } from '../components';
+import { CallToAskComponent, MapComponent, ParagraphComponent, ServiceCardComponent } from '../components'; // Ensure MapComponent is imported
 import ButtonFormComponent from '../components/Button/ButtonFormComponent';
 
 const PreviewPage = () => {
@@ -18,7 +18,7 @@ const PreviewPage = () => {
         components.map((component, index) => {
           switch (component.componentType) {
             case 'button':
-              return <ButtonFormComponent key={index} component={component} />
+              return <ButtonFormComponent key={index} component={component} />;
 
             case 'sectionTitle':
               return (
@@ -58,6 +58,27 @@ const PreviewPage = () => {
                   {component.altText && (
                     <p className="text-center text-gray-600 mt-2">{component.altText}</p>
                   )}
+                </div>
+              );
+
+            case 'map': // Added case for the map component
+              return (
+                <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
+                  <MapComponent formData={component} />
+                </div>
+              );
+
+              case 'paragraph': // Added case for the paragraph component
+              return (
+                <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
+                  <ParagraphComponent formData={component} />
+                </div>
+              );
+
+              case 'serviceCard': // Added case for the Service Card component
+              return (
+                <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
+                  <ServiceCardComponent formData={component} />
                 </div>
               );
 
