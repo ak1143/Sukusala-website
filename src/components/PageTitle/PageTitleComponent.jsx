@@ -2,16 +2,20 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const PageTitle = ({ 
-  subtitle, 
-  title, 
-  subtitleColor = '#000000', 
-  titleColor = '#091e3e', 
-  subtitleFontFamily = "'Nunito', sans-serif", 
-  titleFontFamily = "'Rubik', sans-serif",
-  titleFontSize = 'text-4xl',  // Dynamic font size
-  subtitleFontSize = 'text-xl', // Dynamic font size
-  textAlign = 'left' // Alignment property
+  formData 
 }) => {
+  const { 
+    subtitle, 
+    title, 
+    subtitleColor = '#000000', 
+    titleColor = '#091e3e', 
+    subtitleFontFamily = "'Nunito', sans-serif", 
+    titleFontFamily = "'Rubik', sans-serif",
+    titleFontSize = 'text-4xl',  
+    subtitleFontSize = 'text-xl', 
+    textAlign = 'left' 
+  } = formData; // Destructuring formData
+
   return (
     <div className={`relative pb-6 mb-10 text-${textAlign}`}>
       <h5 

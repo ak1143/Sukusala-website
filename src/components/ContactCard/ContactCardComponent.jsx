@@ -1,11 +1,22 @@
-import React from 'react'
+import React from "react";
 
-function ContactCardComponent() {
+const ContactCardComponent = ({ formData }) => {
+  const { text, description, Phno, backgroundColor, textColor, fontSize } = formData;
+
   return (
-    <div>
-      componet
+    <div
+      className="p-4 rounded-lg"
+      style={{
+        backgroundColor: backgroundColor,
+        color: textColor,
+        fontSize: `${fontSize}px`,
+      }}
+    >
+      <h3 className="text-lg font-bold">{text}</h3>
+      <p>{description}</p>
+      <p>Phone: {Phno}</p>
     </div>
-  )
-}
+  );
+};
 
-export default ContactCardComponent
+export default ContactCardComponent;

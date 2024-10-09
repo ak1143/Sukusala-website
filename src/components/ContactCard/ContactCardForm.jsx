@@ -1,36 +1,73 @@
 import React from "react";
 
-function ContactCardForm({ formData, handleInputChange }) {
+const ContactCardForm = ({ formData, handleInputChange }) => {
   return (
-    <div className="w-full max-w-full">
-      <form className="w-full">
-       <div className="flex gap-3 flex-col">
-       <div className="flex flex-col gap-2 w-full">
-          <label>Some text for contact</label>
-          <input
-            type="text"
-            name="text"
-            value={formData.text}
-            onChange={handleInputChange}
-            placeholder="Enter some text"
-            className="border p-2 rounded-lg w-full"
-          />
-        </div>
-        <div className="flex flex-col gap-2 w-full">
-          <label>Contact Number</label>
-          <input
-            type="text"
-            name="Phno"
-            value={formData.Phno}
-            onChange={handleInputChange}
-            placeholder="Enter Conact number"
-            className="border p-2 rounded-lg w-full"
-          />
-        </div>
-       </div>
-      </form>
+    <div className="mb-4">
+      <h2 className="text-2xl font-bold mb-2">Contact Card</h2>
+      <label className="block mb-2">
+        Text:
+        <input
+          type="text"
+          name="text"
+          value={formData.text}
+          onChange={handleInputChange}
+          className="border rounded w-full p-2"
+          required
+        />
+      </label>
+      <label className="block mb-2">
+        Description:
+        <input
+          type="text"
+          name="description"
+          value={formData.description}
+          onChange={handleInputChange}
+          className="border rounded w-full p-2"
+        />
+      </label>
+      <label className="block mb-2">
+        Phone Number:
+        <input
+          type="text"
+          name="Phno"
+          value={formData.Phno}
+          onChange={handleInputChange}
+          className="border rounded w-full p-2"
+          required
+        />
+      </label>
+      <label className="block mb-2">
+        Background Color:
+        <input
+          type="color"
+          name="backgroundColor"
+          value={formData.backgroundColor}
+          onChange={handleInputChange}
+          className="border rounded w-full p-2"
+        />
+      </label>
+      <label className="block mb-2">
+        Text Color:
+        <input
+          type="color"
+          name="textColor"
+          value={formData.textColor}
+          onChange={handleInputChange}
+          className="border rounded w-full p-2"
+        />
+      </label>
+      <label className="block mb-2">
+        Font Size:
+        <input
+          type="number"
+          name="fontSize"
+          value={formData.fontSize}
+          onChange={handleInputChange}
+          className="border rounded w-full p-2"
+        />
+      </label>
     </div>
   );
-}
+};
 
 export default ContactCardForm;

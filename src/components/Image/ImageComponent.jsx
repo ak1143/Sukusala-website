@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const ImageComponent = ({ imageSrc, formData }) => {
+const ImageComponent = ({ imageSrc, formData = {} }) => {
+  // Destructure formData with default values
+  const {
+    altText = 'Default image description',
+    width = 300, // Default width in pixels
+    height = 200, // Default height in pixels
+    borderRadius = '0', // Default border radius
+    shadow = 'none', // Default shadow style
+  } = formData;
+
   const [image, setImage] = useState(null);
 
   useEffect(() => {
@@ -18,19 +27,17 @@ const ImageComponent = ({ imageSrc, formData }) => {
       transition={{ duration: 1 }}
     >
       {image ? (
-        <>
-          <img
-            src={image}
-            alt={formData.altText}
-            className={`shadow-lg max-w-full h-auto`}
-            style={{
-              width: formData.width ? `${formData.width}px` : 'auto',
-              height: formData.height ? `${formData.height}px` : 'auto',
-              borderRadius: formData.borderRadius || '0',
-              boxShadow: formData.shadow || 'none',
-            }}
-          />
-        </>
+        <img
+          src={image}
+          alt={altText}
+          className="shadow-lg max-w-full h-auto"
+          style={{
+            width: `${width}px`,
+            height: `${height}px`,
+            borderRadius: borderRadius,
+            boxShadow: shadow,
+          }}
+        />
       ) : (
         <div>
           <p>Please upload an image.</p>

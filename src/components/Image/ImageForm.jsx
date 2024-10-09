@@ -6,6 +6,7 @@ const ImageForm = ({ formData, handleInputChange }) => {
       <label>Upload Image</label>
       <input
         type="file"
+        name='imageSrc'
         accept="image/*"
         onChange={handleInputChange}
         className="border p-2 mb-4 w-full"
