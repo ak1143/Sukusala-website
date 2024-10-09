@@ -2,13 +2,14 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PageTitleForm, ImageForm, CallToAskForm, ButtonForm } from "../components/index";
+import { PageTitleForm, ImageForm, CallToAskForm, ButtonForm, FeatureListForm } from "../components/index";
 
 const componentsList = [
   { id: 'sectionTitle', name: 'Section Title' },
   { id: 'image', name: 'Image' },
   { id: 'callToAsk', name: 'Call to Ask' },
   { id: 'button', name: 'Button' },
+  { id: 'feature', name: 'Feature' },
 ];
 
 const initialFormData = {
@@ -53,6 +54,7 @@ const ComponentSelection = () => {
   const [addedComponents, setAddedComponents] = useState([]);
 
   const handleComponentChange = (e) => {
+    console.log(e.target.value);
     setSelectedComponent(e.target.value);
     resetFormData(e.target.value);
   };
@@ -98,6 +100,8 @@ const ComponentSelection = () => {
       setFormData((prev) => ({ ...prev, buttonText: '', buttonColor: '#007BFF', fontSize: 16, fontColor: '#FFFFFF', borderRadius: 5 }));
     } else if (component === 'contact') {
       setFormData((prev) => ({ ...prev, contactName: '', contactEmail: '', contactMessage: '' }));
+    } else if (component === 'feature') {
+      setFormData(initialFormData);
     } else {
       setFormData(initialFormData);
     }
@@ -127,6 +131,10 @@ const ComponentSelection = () => {
         break;
       case 'button':
         isValid = formData.buttonText;
+        newComponent = { ...formData, componentType: selectedComponent };
+        break;
+      case 'feature':
+        isValid = formData.name && formData.email && formData.phoneNumber && formData.inquiryType && formData.questions;
         newComponent = { ...formData, componentType: selectedComponent };
         break;
       case 'contact':
@@ -192,9 +200,10 @@ const ComponentSelection = () => {
       {selectedComponent === 'button' && (
         <ButtonForm formData={formData} handleInputChange={handleInputChange} />
       )}
-      {/* {selectedComponent === 'contact' && (
-        <ContactForm formData={formData} handleInputChange={handleInputChange} />
-      )} */}
+      {selectedComponent === 'feature' && (
+        <FeatureListForm formData={formData} handleInputChange={handleInputChange} />
+      )}
+
 
       {/* Action Buttons */}
       <div className="flex space-x-4 mt-8">

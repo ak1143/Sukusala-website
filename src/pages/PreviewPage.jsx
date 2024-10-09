@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CallToAskComponent, ButtonFormComponent, ImageComponent } from '../components/index';
+import { CallToAskComponent, ButtonFormComponent, ImageComponent,FeatureListComponent } from '../components/index';
 
 const PreviewPage = () => {
   const location = useLocation();
@@ -36,6 +36,10 @@ const PreviewPage = () => {
             case 'callToAsk':
               return (
                 <CallToAskComponent key={index} component={component} />
+              );
+            case 'feature':
+              return (
+                <FeatureListComponent key={index} component={component} />
               );
             case 'contact':
               return (
