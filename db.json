@@ -1,0 +1,11 @@
+{
+    "posts": [
+      { "id": 1, "title": "Hello World", "author": "Abhishek" },
+      { "id": 2, "title": "My Second Post", "author": "John" }
+    ],
+    "comments": [
+      { "id": 1, "body": "Nice post!", "postId": 1 }
+    ],
+    "profile": { "name": "Abhishek" }
+}
+  

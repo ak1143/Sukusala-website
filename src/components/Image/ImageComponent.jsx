@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const ImageComponent = ({ imageSrc, formData = {} }) => {
   // Destructure formData with default values
@@ -7,7 +6,6 @@ const ImageComponent = ({ imageSrc, formData = {} }) => {
     altText = 'Default image description',
     width = 300, // Default width in pixels
     height = 200, // Default height in pixels
-    borderRadius = '0', // Default border radius
     shadow = 'none', // Default shadow style
   } = formData;
 
@@ -20,11 +18,8 @@ const ImageComponent = ({ imageSrc, formData = {} }) => {
   }, [imageSrc]);
 
   return (
-    <motion.div
+    <div
       className="w-full lg:h-full flex flex-col justify-center items-center"
-      initial={{ opacity: 0, scale: 0.1 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1 }}
     >
       {image ? (
         <img
@@ -34,7 +29,6 @@ const ImageComponent = ({ imageSrc, formData = {} }) => {
           style={{
             width: `${width}px`,
             height: `${height}px`,
-            borderRadius: borderRadius,
             boxShadow: shadow,
           }}
         />
@@ -43,7 +37,7 @@ const ImageComponent = ({ imageSrc, formData = {} }) => {
           <p>Please upload an image.</p>
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 

@@ -1,14 +1,15 @@
 import React from 'react';
 
-const ImageForm = ({ formData, handleInputChange }) => {
+const ImageForm = ({ formData, handleInputChange, handleImageUpload }) => {
   return (
     <div>
+      <h2 className="text-2xl font-bold mb-2">Image</h2>
       <label>Upload Image</label>
       <input
         type="file"
         name='imageSrc'
         accept="image/*"
-        onChange={handleInputChange}
+        onChange={handleImageUpload}
         className="border p-2 mb-4 w-full"
       />
       <div className="mb-4">
@@ -42,17 +43,6 @@ const ImageForm = ({ formData, handleInputChange }) => {
           onChange={handleInputChange}
           className="border p-2 mb-2 w-full"
           placeholder="Enter alt text for the image"
-        />
-      </div>
-      <div className="mb-4">
-        <label>Border Radius</label>
-        <input
-          type="text"
-          name="borderRadius"
-          value={formData.borderRadius}
-          onChange={handleInputChange}
-          className="border p-2 mb-2 w-full"
-          placeholder="Enter border radius (e.g., 10px)"
         />
       </div>
       <div className="mb-4">
