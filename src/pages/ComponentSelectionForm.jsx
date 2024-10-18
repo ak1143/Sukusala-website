@@ -138,7 +138,7 @@ const ComponentSelection = () => {
         break;
   
       case "image":
-        if (!imageData.imageSrc || !imageData.altText) {
+        if (!imageData.imageSrc ) {
           alert("Please fill out all Image fields.");
           return;
         }
@@ -272,7 +272,7 @@ const ComponentSelection = () => {
       )}
 
       {selectedComponent === "image" && (
-        <ImageForm />
+        <ImageForm/>
       )}
 
       {/* Render Forms Based on Selected Card Type */}

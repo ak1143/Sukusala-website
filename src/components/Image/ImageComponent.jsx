@@ -1,42 +1,24 @@
-import { useState, useEffect } from "react";
+import React from 'react';
+import useComponentStore from '../../store/useComponentStore';
 
-const ImageComponent = ({ imageSrc, formData = {} }) => {
-  // Destructure formData with default values
-  const {
-    altText = 'Default image description',
-    width = 300, // Default width in pixels
-    height = 200, // Default height in pixels
-    shadow = 'none', // Default shadow style
-  } = formData;
 
-  const [image, setImage] = useState(null);
-
-  useEffect(() => {
-    if (imageSrc) {
-      setImage(imageSrc);
-    }
-  }, [imageSrc]);
+const ImageComponent = () => {
+ const imageData = useComponentStore((state) => state.imageData);
 
   return (
-    <div
-      className="w-full lg:h-full flex flex-col justify-center items-center"
-    >
-      {image ? (
-        <img
-          src={image}
-          alt={altText}
-          className="shadow-lg max-w-full h-auto"
-          style={{
-            width: `${width}px`,
-            height: `${height}px`,
-            boxShadow: shadow,
-          }}
-        />
-      ) : (
-        <div>
-          <p>Please upload an image.</p>
-        </div>
-      )}
+    <div>
+      <div className="md-8 p-6 rounded-lg shadow-lg bg-gray-200"  >
+
+          <img
+            src={URL.createObjectURL(imageData.imageSrc)}
+            alt='Default image'
+            width={imageData.width || auto}
+            height={imageData.height || auto}
+            className={`object-contain ${imageData.shadow ? 'shadow-[0px_6px_12px_rgba(0,0,0,0.7)]' : ''}`}
+          >
+          </img>
+     </div>
+    
     </div>
   );
 };

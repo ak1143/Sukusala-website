@@ -19,13 +19,13 @@ const useComponentStore = create((set) => ({
     subtitleFontSize: 'text-xl',
     textAlign: 'left',
   },
-  imageData: {
-    width: '',
-    height: '',
-    altText: '',
-    shadow: '',
-    imageSrc: '',
-  },
+  // imageData: {
+  //   width: '',
+  //   height: '',
+  //   altText: '',
+  //   shadow: '',
+  //   imageSrc: '',
+  // },
   contactCardData: {
     text: '',
     description: '',
@@ -93,7 +93,7 @@ const useComponentStore = create((set) => ({
   setSelectedCardType: (cardType) => set({ selectedCardType: cardType }),
   setPageTitleData: (data) => set((state) => ({ pageTitleData: { ...state.pageTitleData, ...data } })),
   setEditComponentIndex : (index) => set({ editComponentIndex: index }),
-  setImageData: (data) => set((state) => ({ imageData: { ...state.imageData, ...data } })),
+  // setImageData: (data) => set((state) => ({ imageData: { ...state.imageData, ...data } })),
   setContactCardData: (data) => set((state) => ({ contactCardData: { ...state.contactCardData, ...data } })),
   setCallToAskData: (data) => set((state) => ({ callToAskData: { ...state.callToAskData, ...data } })),
   setButtonData: (data) => set((state) => ({ buttonData: { ...state.buttonData, ...data } })),
@@ -183,6 +183,17 @@ const useComponentStore = create((set) => ({
   //   },
   //   serviceListData: [{ text: '', icon: 'reply' }],
   // }),
+  
+  
+  imageData: {
+    imageSrc:null,
+    width: '',
+    height: '',
+    shadow: false,
+  },
+  setImageData: (data) => set((state) => ({
+    imageData: { ...state.imageData, ...data },
+  })),
 }));
 
 export default useComponentStore;
