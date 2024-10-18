@@ -232,6 +232,7 @@ const ComponentSelection = () => {
           Select Component Type:
         </label>
         <select
+          disabled = {editComponentIndex === -1 ? false : true}
           value={selectedComponent}
           onChange={handleComponentChange}
           className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"

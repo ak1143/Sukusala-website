@@ -12,22 +12,13 @@ import {
   ParagraphComponent,
   ServiceCardComponent,
   ServiceListComponent
-} from "../components"; // Ensure all components are imported correctly
-
-
+} from "../components";
 
 const PreviewPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { components } = location.state || { components: [] };
-  const setEditing = useComponentStore(state => state.setEditing)
 
-  const { addedComponents, setSelectedComponent, setPageTitleData, setEditComponentIndex, pageTitleData } = useComponentStore()
-  function handleFormEdit(){
-    navigate(-1);
-    setEditing();
-    
-  }
+  const { addedComponents, setSelectedComponent, setEditComponentIndex } = useComponentStore();
 
   const handleEdit = () =>{
     navigate(-1)
@@ -48,7 +39,10 @@ const PreviewPage = () => {
   };
 
   const handleSaveConfiguratoin = ()=>{
-
+    navigate(-1);
+    setEditComponentIndex(-1);
+    setSelectedComponent('');
+    
   }
 
   return (
@@ -64,17 +58,17 @@ const PreviewPage = () => {
           switch (component.componentType) {
             case "pageTitle":
               return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-                      <PageTitleComponent />;
+                      <PageTitleComponent />
                      </div>
               
             case "button":
               return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-                    <ButtonFormComponent />;
+                    <ButtonFormComponent />
                     </div>
 
             case "callToAsk":
               return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-              <CallToAskComponent />;
+              <CallToAskComponent />
               </div>
 
             case "image":
@@ -92,15 +86,15 @@ const PreviewPage = () => {
               );
 
             case "contactCard":
-              return <ContactCardComponent key={index} formData={component} />;
+              return <ContactCardComponent key={index} formData={component} />
 
             case "registeredCard":
-              return <RegisteredCardComponent key={index} formData={component} />;
+              return <RegisteredCardComponent key={index} formData={component} />
               
             case "map":
               return (
                 <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
-                  <MapComponent formData={component} />
+                  <MapComponent />
                 </div>
               );
 
@@ -125,7 +119,7 @@ const PreviewPage = () => {
                 </div>
               );
             default:
-              return null;
+              return null
           }
         })
       )}
@@ -138,6 +132,7 @@ const PreviewPage = () => {
           Edit
         </button>
         <button
+        onClick={handleSaveConfiguratoin}
         className="bg-green-600 text-white p-3 rounded-md shadow-md hover:bg-green-800 transition duration-200"
         >
           Save Component

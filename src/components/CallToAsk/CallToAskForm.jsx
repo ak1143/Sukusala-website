@@ -1,8 +1,18 @@
 // src/components/CallToAskForm.js
 
 import React from 'react';
+import useComponentStore from '../../store/useComponentStore';
 
-const CallToAskForm = ({ formData, handleInputChange }) => {
+const CallToAskForm = () => {
+
+    const callToAskData = useComponentStore( state => state.callToAskData);
+    const setCallToAskData = useComponentStore(state => state.setCallToAskData);
+
+    const handleInputChange = (e)=>{
+        const { name, value} = e.target;
+        setCallToAskData({ ...callToAskData, [name]: value });
+    }
+
     return (
         <div className="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
             <h2 className="text-2xl font-semibold mb-4 text-gray-700">Call to Ask Details</h2>
@@ -11,7 +21,7 @@ const CallToAskForm = ({ formData, handleInputChange }) => {
             <input
                 type="text"
                 name="name"
-                value={formData.name}
+                value={callToAskData.name}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter your name"
@@ -21,7 +31,7 @@ const CallToAskForm = ({ formData, handleInputChange }) => {
             <input
                 type="email"
                 name="email"
-                value={formData.email}
+                value={callToAskData.email}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter your email"
@@ -31,7 +41,7 @@ const CallToAskForm = ({ formData, handleInputChange }) => {
             <input
                 type="tel"
                 name="phoneNumber"
-                value={formData.phoneNumber}
+                value={callToAskData.phoneNumber}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter phone number"
@@ -40,7 +50,7 @@ const CallToAskForm = ({ formData, handleInputChange }) => {
             <label className="block mb-2 text-sm font-medium text-gray-700">Select Inquiry Type:</label>
             <select
                 name="inquiryType"
-                value={formData.inquiryType}
+                value={callToAskData.inquiryType}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
@@ -70,7 +80,7 @@ const CallToAskForm = ({ formData, handleInputChange }) => {
             <label className="block mb-2 text-sm font-medium text-gray-700">Questions:</label>
             <textarea
                 name="questions"
-                value={formData.questions}
+                value={callToAskData.questions}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter questions related to the call"
@@ -81,7 +91,7 @@ const CallToAskForm = ({ formData, handleInputChange }) => {
             <input
                 type="text"
                 name="address"
-                value={formData.address}
+                value={callToAskData.address}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter your address"
@@ -91,7 +101,7 @@ const CallToAskForm = ({ formData, handleInputChange }) => {
             <input
                 type="text"
                 name="preferredContactTime"
-                value={formData.preferredContactTime}
+                value={callToAskData.preferredContactTime}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="e.g., Morning, Afternoon, Evening"
@@ -100,7 +110,7 @@ const CallToAskForm = ({ formData, handleInputChange }) => {
             <label className="block mb-2 text-sm font-medium text-gray-700">Additional Notes:</label>
             <textarea
                 name="additionalNotes"
-                value={formData.additionalNotes}
+                value={callToAskData.additionalNotes}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Any additional information"

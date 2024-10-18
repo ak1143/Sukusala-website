@@ -4,8 +4,7 @@ import useComponentStore from '../../store/useComponentStore';
 const PageTitleForm = () => {
 
   const pageTitleData  = useComponentStore( state => state.pageTitleData );
-  const setPageTitleData = useComponentStore( state => state.setPageTitleData)
-  const editing = true
+  const setPageTitleData = useComponentStore( state => state.setPageTitleData);
   
 
   useEffect (()=>{
@@ -98,7 +97,6 @@ const PageTitleForm = () => {
       <option value="center">Center</option>
       <option value="right">Right</option>
     </select>
-    {editing && <button type="submit">Edit</button>}
   </form>
 );
 };
