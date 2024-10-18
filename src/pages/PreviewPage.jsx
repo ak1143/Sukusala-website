@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import useComponentStore from "../store/useComponentStore";
 import {
   PageTitleComponent,
   ImageComponent,
@@ -13,10 +14,42 @@ import {
   ServiceListComponent
 } from "../components"; // Ensure all components are imported correctly
 
+
+
 const PreviewPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { components } = location.state || { components: [] };
+  const setEditing = useComponentStore(state => state.setEditing)
+
+  const { addedComponents, setSelectedComponent, setPageTitleData, setEditComponentIndex, pageTitleData } = useComponentStore()
+  function handleFormEdit(){
+    navigate(-1);
+    setEditing();
+    
+  }
+
+  const handleEdit = () =>{
+    navigate(-1)
+    // console.log(addedComponents);
+    if(addedComponents.length === 0 ){
+      alert("you have not added any component.")
+    }
+  
+    const componentToEdit = addedComponents[addedComponents.length-1];
+    
+    setSelectedComponent(componentToEdit.componentType);
+  
+    if (componentToEdit.componentType === "card") {
+      setSelectedCardType(componentToEdit.componentType);
+    }
+    setEditComponentIndex(addedComponents.length-1);
+    
+  };
+
+  const handleSaveConfiguratoin = ()=>{
+
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-8 mt-10">
@@ -24,24 +57,24 @@ const PreviewPage = () => {
         Preview of Components
       </h1>
 
-      {components.length === 0 ? (
+      {addedComponents.length === 0 ? (
         <p className="text-center text-gray-600">No components added yet.</p>
       ) : (
-        components.map((component, index) => {
+        addedComponents.map((component, index) => {
           switch (component.componentType) {
             case "pageTitle":
               return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-                      <PageTitleComponent formData={component} />;
+                      <PageTitleComponent />;
                      </div>
               
             case "button":
               return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-                    <ButtonFormComponent component={component} />;
+                    <ButtonFormComponent />;
                     </div>
 
             case "callToAsk":
               return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-              <CallToAskComponent component={component} />;
+              <CallToAskComponent />;
               </div>
 
             case "image":
@@ -97,12 +130,17 @@ const PreviewPage = () => {
         })
       )}
 
-      <div className="text-center pt-10">
+      <div className="text-center pt-10 flex gap-2">
         <button
-          onClick={() => navigate(-1)}
-          className="bg-gray-600 text-white p-3 rounded-md shadow-md hover:bg-gray-700 transition duration-200"
+          onClick={handleEdit}
+          className="bg-red-500 text-white p-3 rounded-md shadow-md hover:bg-red-700 transition duration-200"
         >
-          Go Back
+          Edit
+        </button>
+        <button
+        className="bg-green-600 text-white p-3 rounded-md shadow-md hover:bg-green-800 transition duration-200"
+        >
+          Save Component
         </button>
       </div>
     </div>

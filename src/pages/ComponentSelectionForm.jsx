@@ -1,7 +1,7 @@
-// src/components/ComponentSelection.js
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useComponentStore from "../store/useComponentStore"; // Import the store
 import {
   PageTitleForm,
   ImageForm,
@@ -34,303 +34,44 @@ const cardTypes = [
 
 const ComponentSelection = () => {
   const navigate = useNavigate();
-  const [selectedComponent, setSelectedComponent] = useState("");
-  const [addedComponents, setAddedComponents] = useState([]);
-  const [selectedCardType, setSelectedCardType] = useState("");
+  
+  // Use the Zustand store
+  const {
+    selectedComponent,
+    selectedCardType,
+    addedComponents,
+    editComponentIndex,
+    setAddedComponents,
+    setSelectedComponent,
+    setSelectedCardType,
+    setEditComponentIndex,
+    setPageTitleData,
+    setImageData,
+    setContactCardData,
+    setCallToAskData,
+    setButtonData,
+    setRegisteredCardData,
+    setMapData,
+    setParagraphData,
+    setServiceCardData,
+    setServiceListData,
+    // resetStore,
+    pageTitleData,
+    contactCardData,
+    registeredCardData,
+    serviceCardData,
+    imageData,
+    callToAskData,
+    buttonData,
+    paragraphData
+  } = useComponentStore();
 
-  const [formData, setFormData] = useState({
-    title: "",
-    subtitle: "",
-    titleColor: "#000000",
-    subtitleColor: "#000000",
-    titleFont: "Arial",
-    subtitleFont: "Arial",
-    titleFontSize: "text-4xl",
-    subtitleFontSize: "text-xl",
-    textAlign: "left",
-  });
-
-  const [imageData, setImageData] = useState({
-    width: "",
-    height: "",
-    altText: "",
-    shadow: "",
-    imageSrc: "",
-  });
-
-  const [contactCardData, setContactCardData] = useState({
-    text: "",
-    description: "",
-    Phno: "",
-    backgroundColor: "orange",
-    textColor: "white",
-    fontSize: 16,
-  });
-
-  const [callToAskData, setCallToAskData] = useState({
-    name: "",
-    email: "",
-    phoneNumber: "",
-    inquiryType: "",
-    questions: "",
-    icons: [],
-    address: "",
-    preferredContactTime: "",
-    additionalNotes: "",
-    attachment: null,
-  });
-
-  const [buttonData, setButtonData] = useState({
-    buttonText: "",
-    buttonColor: "#007BFF",
-    fontSize: 16,
-    fontColor: "#FFFFFF",
-    borderRadius: 5,
-  });
-
-  const [registeredCardData, setRegisteredCardData] = useState({
-    title: "",
-    description: "",
-    buttonText: "",
-    backgroundColor: "#ffffff", // Default to white
-    textColor: "#000000", // Default to black
-    fontSize: 16, // Default font size in pixels
-    buttonColor: "#ff7f00", // Default button color (orange, based on the image)
-  });
-
-  const [mapData, setMapData] = useState({
-    lat: 17.4932,
-    lng: 78.3997,
-    zoom: 13,
-    height: "400px",
-    width: "100%",
-    markerText: "Hello!",
-  });
-
-  const [paragraphData, setParagraphData] = useState({
-    content: "",
-    backgroundColor: "#ffffff",
-    textColor: "#000000",
-    fontSize: 16,
-  });
-
-  const [serviceCardData, setServiceCardData] = useState({
-    title: "",
-    description: "",
-    icon: "", // URL for the icon
-    backgroundColor: "#ffffff",
-    textColor: "#000000",
-  });
-
-  const [serviceListData, setServiceListData] = useState([
-    { text: "", icon: "reply" }, // Initialize Service List
-  ]);
+  // useEffect(() => {
+  //   resetStore(); // Reset the store when the component mounts
+  // }, []);
 
   const handleComponentChange = (e) => {
     setSelectedComponent(e.target.value);
-  };
-
-  const handleInputChange = (e, index) => {
-    const { name, value, type, checked, files } = e.target;
-
-    switch (selectedComponent) {
-      case "pageTitle":
-        setFormData({ ...formData, [name]: value });
-        break;
-
-      case "image":
-        setImageData({ ...imageData, [name]: value });
-        break;
-
-      case "callToAsk":
-        if (type === "checkbox") {
-          setCallToAskData((prev) => {
-            const icons = checked
-              ? [...prev.icons, value]
-              : prev.icons.filter((icon) => icon !== value);
-            return { ...prev, icons };
-          });
-        } else if (name === "attachment") {
-          setCallToAskData((prev) => ({ ...prev, attachment: files[0] }));
-        } else {
-          setCallToAskData((prev) => ({ ...prev, [name]: value }));
-        }
-        break; // Break after handling this case
-
-      case "button":
-        setButtonData({ ...buttonData, [name]: value });
-        break;
-
-      case "map":
-        setMapData((prev) => ({ ...prev, [name]: value }));
-        break;
-
-      case "paragraph":
-        setParagraphData((prev) => ({ ...prev, [name]: value }));
-        break;
-
-      case "serviceList":
-        const updatedServices = [...serviceListData];
-        if (name.startsWith("text")) {
-          updatedServices[index].text = value;
-        } else if (name.startsWith("icon")) {
-          updatedServices[index].icon = value;
-        }
-        setServiceListData(updatedServices);
-        break;
-      
-        case "card":
-          switch (selectedCardType) {
-            case "contactCard":
-              setContactCardData({ ...contactCardData, [name]: value });
-              break;
-            case "registeredCard":
-              setRegisteredCardData({ ...registeredCardData, [name]: value });
-              break;
-            case "serviceCard":
-              setServiceCardData({ ...serviceCardData, [name]: value });
-              break;
-            default:
-              break;
-          }
-          break;
-
-      default:
-        break;
-    }
-  };
-
-  const addService = () => {
-    if (serviceListData.some((service) => !service.text.trim())) {
-      alert("Please fill out the service text before adding.");
-      return;
-    }
-    setServiceListData([...serviceListData, { text: "", icon: "reply" }]);
-  };
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageData((prev) => ({ ...prev, imageSrc: reader.result }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const resetFormData = () => {
-    switch (selectedComponent) {
-      case "pageTitle":
-        setFormData({
-          title: "",
-          subtitle: "",
-          titleColor: "#000000",
-          subtitleColor: "#000000",
-          titleFont: "Arial",
-          subtitleFont: "Arial",
-          titleFontSize: "text-4xl",
-          subtitleFontSize: "text-xl",
-          textAlign: "left",
-        });
-        break;
-
-      case "image":
-        setImageData({
-          width: "",
-          height: "",
-          altText: "",
-          shadow: "",
-          imageSrc: null,
-        });
-        break;
-
-      case "contactCard":
-        setContactCardData({
-          text: "",
-          description: "",
-          Phno: "",
-          backgroundColor: "orange",
-          textColor: "white",
-          fontSize: 16,
-        });
-        break;
-
-      case "callToAsk":
-        setCallToAskData({
-          name: "",
-          email: "",
-          phoneNumber: "",
-          inquiryType: "",
-          questions: "",
-          icons: [],
-          address: "",
-          preferredContactTime: "",
-          additionalNotes: "",
-          attachment: null,
-        });
-        break;
-
-      case "button":
-        setButtonData({
-          buttonText: "",
-          buttonColor: "#007BFF",
-          fontSize: 16,
-          fontColor: "#FFFFFF",
-          borderRadius: 5,
-        });
-        break;
-
-      case "map":
-        setMapData({
-          lat: 17.4932,
-          lng: 78.3997,
-          zoom: 13,
-          height: "400px",
-          width: "100%",
-          markerText: "Hello!",
-        });
-        break;
-
-      case "paragraph":
-        setParagraphData({
-          content: "",
-          backgroundColor: "#ffffff",
-          textColor: "#000000",
-          fontSize: 16,
-        });
-        break;
-
-      case "serviceCard":
-        setServiceCardData({
-          title: "",
-          description: "",
-          icon: "",
-          backgroundColor: "#ffffff",
-          textColor: "#000000",
-        });
-        break;
-
-      case "serviceList":
-        setServiceListData([{ text: "", icon: "reply" }]); // Reset back to initial state
-        break;
-
-      case "registeredCard":
-        setRegisteredCardData({
-          title: "",
-          description: "",
-          buttonText: "",
-          backgroundColor: "#ffffff",
-          textColor: "#000000",
-          fontSize: 16,
-          buttonColor: "#ff7f00",
-        });
-        break;
-
-      default:
-        break;
-    }
   };
 
   const handleAddComponent = () => {
@@ -338,16 +79,16 @@ const ComponentSelection = () => {
       alert("Please select a component type.");
       return;
     }
-
+  
     let newComponent = {};
-
+  
     switch (selectedComponent) {
       case "card":
         if (!selectedCardType) {
           alert("Please select a card type.");
           return;
         }
-
+  
         switch (selectedCardType) {
           case "contactCard":
             if (!contactCardData.text || !contactCardData.description) {
@@ -359,7 +100,7 @@ const ComponentSelection = () => {
               componentType: selectedCardType,
             };
             break;
-
+  
           case "registeredCard":
             if (!registeredCardData.title || !registeredCardData.description) {
               alert("Please fill out all Registered Card fields.");
@@ -370,7 +111,7 @@ const ComponentSelection = () => {
               componentType: selectedCardType,
             };
             break;
-
+  
           case "serviceCard":
             if (!serviceCardData.title || !serviceCardData.description) {
               alert("Please fill out all Service Card fields.");
@@ -381,20 +122,21 @@ const ComponentSelection = () => {
               componentType: selectedCardType,
             };
             break;
-
+  
           default:
-            break;
+            alert("Unknown card type.");
+            return;
         }
         break;
-
+  
       case "pageTitle":
-        if (!formData.title || !formData.subtitle) {
+        if (!pageTitleData.title || !pageTitleData.subtitle) {
           alert("Please fill out all Page Title fields.");
           return;
         }
-        newComponent = { ...formData, componentType: selectedComponent };
+        newComponent = { ...pageTitleData, componentType: selectedComponent };
         break;
-
+  
       case "image":
         if (!imageData.imageSrc || !imageData.altText) {
           alert("Please fill out all Image fields.");
@@ -402,7 +144,7 @@ const ComponentSelection = () => {
         }
         newComponent = { ...imageData, componentType: selectedComponent };
         break;
-
+  
       case "callToAsk":
         if (
           !callToAskData.name ||
@@ -416,7 +158,7 @@ const ComponentSelection = () => {
         }
         newComponent = { ...callToAskData, componentType: selectedComponent };
         break;
-
+  
       case "button":
         if (!buttonData.buttonText) {
           alert("Please enter the button text.");
@@ -424,7 +166,7 @@ const ComponentSelection = () => {
         }
         newComponent = { ...buttonData, componentType: selectedComponent };
         break;
-
+  
       case "map":
         if (!mapData.lat || !mapData.lng) {
           alert("Please fill out all Map fields.");
@@ -432,7 +174,7 @@ const ComponentSelection = () => {
         }
         newComponent = { ...mapData, componentType: selectedComponent };
         break;
-
+  
       case "paragraph":
         if (!paragraphData.content) {
           alert("Please fill out all Paragraph fields.");
@@ -440,23 +182,35 @@ const ComponentSelection = () => {
         }
         newComponent = { ...paragraphData, componentType: selectedComponent };
         break;
-
-      case "serviceList":
-        newComponent = {
-          services: serviceListData,
-          componentType: selectedComponent,
-        };
-        break;
-
+  
       default:
         alert("Unknown component type.");
         return;
     }
-
-    setAddedComponents((prev) => [...prev, newComponent]);
-    resetFormData();
-    setSelectedComponent("");
+  
+    // Add the new component to the state
+    setAddedComponents(newComponent);
+  
+    // Reset component selection
+    setSelectedComponent(""); // Clear selected component
+    setSelectedCardType("");  // Clear selected card type (if applicable)
   };
+
+  const handleUpdateComponent =()=>{
+
+    let updatedComponent = {};
+    const EditComponent = addedComponents[editComponentIndex];
+
+    switch(EditComponent){
+      case "pageTitle":
+        updatedComponent = { ...EditComponent,...pageTitleData, componentType: EditComponent.componentType };
+        break;
+    }
+    setSelectedComponent("");
+    setEditComponentIndex(-1);
+  }
+  
+  
 
   const handlePreview = () => {
     if (addedComponents.length === 0) {
@@ -465,6 +219,8 @@ const ComponentSelection = () => {
     }
     navigate("/preview", { state: { components: addedComponents } });
   };
+
+  useEffect(()=>{console.log(addedComponents)},[addedComponents])
 
   return (
     <div className="max-w-3xl mx-auto p-8 bg-gray-50 rounded-lg shadow-md mt-10">
@@ -480,7 +236,7 @@ const ComponentSelection = () => {
           onChange={handleComponentChange}
           className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="">-- Select Component Type --</option>
+          <option value="" disabled>-- Select Component Type --</option>
           {componentsList.map((component) => (
             <option key={component.id} value={component.id}>
               {component.name}
@@ -512,79 +268,50 @@ const ComponentSelection = () => {
 
       {/* Render Forms Based on Selected Component */}
       {selectedComponent === "pageTitle" && (
-        <PageTitleForm
-          formData={formData}
-          handleInputChange={handleInputChange}
-        />
+        <PageTitleForm  />
       )}
 
       {selectedComponent === "image" && (
-        <ImageForm
-          formData={imageData}
-          handleInputChange={handleInputChange}
-          handleImageUpload={handleImageUpload}
-        />
+        <ImageForm />
       )}
 
       {/* Render Forms Based on Selected Card Type */}
       {selectedCardType === "contactCard" && (
-        <ContactCardForm
-          formData={contactCardData}
-          handleInputChange={handleInputChange}
-        />
+        <ContactCardForm />
       )}
 
       {selectedCardType === "registeredCard" && (
-        <RegisteredCardForm
-          formData={registeredCardData}
-          handleInputChange={handleInputChange}
-        />
+        <RegisteredCardForm />
       )}
 
       {selectedCardType === "serviceCard" && (
-        <ServiceCardForm
-          formData={serviceCardData}
-          handleInputChange={handleInputChange}
-        />
+        <ServiceCardForm />
       )}
 
       {selectedComponent === "callToAsk" && (
-        <CallToAskForm
-          formData={callToAskData}
-          handleInputChange={handleInputChange}
-        />
+        <CallToAskForm />
       )}
 
       {selectedComponent === "button" && (
-        <ButtonForm
-          formData={buttonData}
-          handleInputChange={handleInputChange}
-        />
+        <ButtonForm />
       )}
 
       {selectedComponent === "map" && (
-        <MapForm formData={mapData} handleInputChange={handleInputChange} />
+        <MapForm />
       )}
 
       {selectedComponent === "paragraph" && (
-        <ParagraphForm
-          formData={paragraphData}
-          handleInputChange={handleInputChange}
-        />
+        <ParagraphForm  />
       )}
 
       {selectedComponent === "serviceList" && (
-        <ServiceListForm
-          servicesData={serviceListData}
-          handleInputChange={handleInputChange}
-          addService={addService}
-        />
+        <ServiceListForm  />
       )}
 
       {/* Action Buttons */}
       <div className="flex space-x-4 mt-8">
         <button
-          onClick={handleAddComponent}
+          onClick={editComponentIndex === -1 ? handleAddComponent : handleUpdateComponent}
           className="bg-blue-600 text-white p-3 rounded-md shadow-md hover:bg-blue-700 transition duration-200 flex-1"
         >
           Add Component

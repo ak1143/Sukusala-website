@@ -1,6 +1,7 @@
 import React from 'react';
 
-const ButtonForm = ({ formData, handleInputChange }) => {
+const ButtonForm = () => {
+    
     return (
         <div className="mb-6">
             <label className="block mb-2 text-lg font-medium">Button Text:</label>
