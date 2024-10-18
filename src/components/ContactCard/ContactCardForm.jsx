@@ -1,6 +1,16 @@
 import React from "react";
+import useComponentStore from "../../store/useComponentStore";
 
-const ContactCardForm = ({ formData, handleInputChange }) => {
+const ContactCardForm = () => {
+
+  const contactCardData = useComponentStore( state => state.contactCardData );
+  const setContactCardData = useComponentStore( state => state.setContactCardData);
+
+  const handleInputChange = (e) =>{
+    const { name, value} = e.target;
+    setContactCardData({ ...contactCardData, [name]:value})
+  }
+
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-bold mb-2">Contact Card</h2>
@@ -9,7 +19,7 @@ const ContactCardForm = ({ formData, handleInputChange }) => {
         <input
           type="text"
           name="text"
-          value={formData.text}
+          value={contactCardData.text}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           required
@@ -20,7 +30,7 @@ const ContactCardForm = ({ formData, handleInputChange }) => {
         <input
           type="text"
           name="description"
-          value={formData.description}
+          value={contactCardData.description}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
@@ -30,7 +40,7 @@ const ContactCardForm = ({ formData, handleInputChange }) => {
         <input
           type="text"
           name="Phno"
-          value={formData.Phno}
+          value={contactCardData.Phno}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           required
@@ -41,7 +51,7 @@ const ContactCardForm = ({ formData, handleInputChange }) => {
         <input
           type="color"
           name="backgroundColor"
-          value={formData.backgroundColor}
+          value={contactCardData.backgroundColor}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
@@ -51,7 +61,7 @@ const ContactCardForm = ({ formData, handleInputChange }) => {
         <input
           type="color"
           name="textColor"
-          value={formData.textColor}
+          value={contactCardData.textColor}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
@@ -61,7 +71,7 @@ const ContactCardForm = ({ formData, handleInputChange }) => {
         <input
           type="number"
           name="fontSize"
-          value={formData.fontSize}
+          value={contactCardData.fontSize}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />

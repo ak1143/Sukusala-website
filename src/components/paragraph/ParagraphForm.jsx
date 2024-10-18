@@ -1,6 +1,16 @@
+import useComponentStore from "../../store/useComponentStore";
 
 
-const ParagraphForm = ({ formData, handleInputChange }) => {
+const ParagraphForm = () => {
+
+  const paragraphData = useComponentStore( state => state.paragraphData);
+  const setParagraphData = useComponentStore( state => state.setParagraphData);
+
+  const handleInputChange = (e)=>{
+    const { name, value } = e.target;
+    setParagraphData({ ...paragraphData, [name] : value });
+  }
+
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-bold mb-2">Paragraph Form</h2>
@@ -9,7 +19,7 @@ const ParagraphForm = ({ formData, handleInputChange }) => {
         Content:
         <textarea
           name="content"
-          value={formData.content}
+          value={paragraphData.content}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           required
@@ -21,7 +31,7 @@ const ParagraphForm = ({ formData, handleInputChange }) => {
         <input
           type="color"
           name="backgroundColor"
-          value={formData.backgroundColor}
+          value={paragraphData.backgroundColor}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
@@ -32,7 +42,7 @@ const ParagraphForm = ({ formData, handleInputChange }) => {
         <input
           type="color"
           name="textColor"
-          value={formData.textColor}
+          value={paragraphData.textColor}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
@@ -43,7 +53,7 @@ const ParagraphForm = ({ formData, handleInputChange }) => {
         <input
           type="number"
           name="fontSize"
-          value={formData.fontSize}
+          value={paragraphData.fontSize}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />

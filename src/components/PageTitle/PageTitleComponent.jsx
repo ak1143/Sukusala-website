@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import useComponentStore from "../../store/useComponentStore";
 
 const PageTitle = () => {
@@ -19,28 +18,6 @@ const PageTitle = () => {
       >
         {pageTitleData.subtitle}
       </h5>
-      <motion.div
-        className="absolute left-0 bottom-0 bg-orange-400 h-1 w-9/12"
-        initial={{ width: "9rem" }}
-        transition={{
-          duration: 4,
-          ease: "easeIn",
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-      >
-        <motion.div
-          className="absolute left-2 bottom-0 bg-white h-1"
-          initial={{ width: "0.4rem", x: "-100%" }}
-          animate={{ x: ["-100%", "9rem"] }}
-          transition={{
-            duration: 4,
-            ease: "easeIn",
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-        />
-      </motion.div>
     </div>
   );
 };

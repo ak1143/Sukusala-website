@@ -1,7 +1,10 @@
+import useComponentStore from "../../store/useComponentStore";
 
 
-const ParagraphComponent = ({ formData }) => {
-  const { heading, content, backgroundColor, textColor, fontSize } = formData;
+const ParagraphComponent = () => {
+
+  const paragraphData = useComponentStore( state => state.paragraphData);
+  const { heading, content, backgroundColor, textColor, fontSize } = paragraphData;
 
   return (
     <div

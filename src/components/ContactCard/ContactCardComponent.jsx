@@ -1,7 +1,10 @@
 import React from "react";
+import useComponentStore from "../../store/useComponentStore";
 
-const ContactCardComponent = ({ formData }) => {
-  const { text, description, Phno, backgroundColor, textColor, fontSize } = formData;
+const ContactCardComponent = () => {
+
+  const contactCardData = useComponentStore( state => state.contactCardData );
+  const { text, description, Phno, backgroundColor, textColor, fontSize } = contactCardData;
 
   return (
     <div

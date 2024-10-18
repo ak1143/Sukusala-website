@@ -63,7 +63,8 @@ const ComponentSelection = () => {
     imageData,
     callToAskData,
     buttonData,
-    paragraphData
+    paragraphData,
+    mapData
   } = useComponentStore();
 
   // useEffect(() => {
@@ -190,6 +191,8 @@ const ComponentSelection = () => {
   
     // Add the new component to the state
     setAddedComponents(newComponent);
+    // console.log(mapData);
+    // console.log(addedComponents)
   
     // Reset component selection
     setSelectedComponent(""); // Clear selected component
@@ -197,15 +200,6 @@ const ComponentSelection = () => {
   };
 
   const handleUpdateComponent =()=>{
-
-    let updatedComponent = {};
-    const EditComponent = addedComponents[editComponentIndex];
-
-    switch(EditComponent){
-      case "pageTitle":
-        updatedComponent = { ...EditComponent,...pageTitleData, componentType: EditComponent.componentType };
-        break;
-    }
     setSelectedComponent("");
     setEditComponentIndex(-1);
   }

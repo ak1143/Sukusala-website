@@ -1,7 +1,9 @@
 import React from "react";
+import useComponentStore from "../../store/useComponentStore";
 
-const RegisteredCardComponent = ({ formData }) => {
-  const { title, description, buttonText, backgroundColor, textColor, fontSize, buttonColor } = formData;
+const RegisteredCardComponent = () => {
+  const registeredCardData = useComponentStore( state => state.registeredCardData);
+  const { title, description, buttonText, backgroundColor, textColor, fontSize, buttonColor } = registeredCardData;
 
   return (
     <div
