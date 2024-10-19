@@ -1,6 +1,15 @@
+import useComponentStore from "../../store/useComponentStore";
 
+const MapForm = () => {
 
-const MapForm = ({ formData, handleInputChange }) => {
+  const mapData = useComponentStore( state => state.mapData);
+  const setMapData = useComponentStore( state => state.setMapData);
+
+  const handleInputChange =(e) =>{
+    const { name, value} = e.target;
+    setMapData({ ...mapData, [name] : value});
+  }
+
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-bold mb-2">Map Configuration</h2>
@@ -11,7 +20,7 @@ const MapForm = ({ formData, handleInputChange }) => {
           type="number"
           step="any"
           name="lat"
-          value={formData.lat}
+          value={mapData.lat}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           required
@@ -24,7 +33,7 @@ const MapForm = ({ formData, handleInputChange }) => {
           type="number"
           step="any"
           name="lng"
-          value={formData.lng}
+          value={mapData.lng}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           required
@@ -36,7 +45,7 @@ const MapForm = ({ formData, handleInputChange }) => {
         <input
           type="number"
           name="zoom"
-          value={formData.zoom}
+          value={mapData.zoom}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           required
@@ -48,7 +57,7 @@ const MapForm = ({ formData, handleInputChange }) => {
         <input
           type="text"
           name="width"
-          value={formData.width}
+          value={mapData.width}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           required
@@ -60,7 +69,7 @@ const MapForm = ({ formData, handleInputChange }) => {
         <input
           type="text"
           name="height"
-          value={formData.height}
+          value={mapData.height}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           required
@@ -72,7 +81,7 @@ const MapForm = ({ formData, handleInputChange }) => {
         <input
           type="text"
           name="markerText"
-          value={formData.markerText}
+          value={mapData.markerText}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />

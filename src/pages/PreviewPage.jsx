@@ -12,22 +12,21 @@ import {
   ParagraphComponent,
   ServiceCardComponent,
   ServiceListComponent
-} from "../components"; // Ensure all components are imported correctly
-
-
+} from "../components";
 
 const PreviewPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { components } = location.state || { components: [] };
-  const setEditing = useComponentStore(state => state.setEditing)
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [componentName, setComponentName] = useState('');
+  const [error, setError] = useState('');
 
-  const { addedComponents, setSelectedComponent, setPageTitleData, setEditComponentIndex, pageTitleData } = useComponentStore()
-  function handleFormEdit(){
-    navigate(-1);
-    setEditing();
-    
-  }
+  const { addedComponents, setSelectedComponent, setEditComponentIndex } = useComponentStore();
+
+  const handleComponentNameChange = (e) => {
+    setComponentName(e.target.value);
+    setError('');
+  };
 
   const handleEdit = () =>{
     navigate(-1)
@@ -48,14 +47,48 @@ const PreviewPage = () => {
   };
 
   const handleSaveConfiguratoin = ()=>{
-
+    setIsPopupVisible(true);
+    // navigate(-1);
+    // setEditComponentIndex(-1);
+    // setSelectedComponent('');
+    
   }
+  const handleSave = async () =>{
+    try {
+      const response= await axios.get("/api/component/nameCheck");
+      console.log("error 1:",response.data);
+      if(response.data){
+        setError('Component name already exists.');
+      } else {
+        try {
+          const res = await axios.post("api/toSave/componentConfig");
+        console.log("error 2:",res.data);
+        alert('Component saved successfully!');
+        setIsPopupVisible(false);
+        setComponentName('');
+          
+        } catch (error) {
+          console.log("error msg 1:",error);
+          console.log("error msg 2:",error.response);
+          console.log("error msg 3:",error.response.data);
+          
+        }
+        
+      }
+      
+    } catch (error) {
+      console.log("error msg 1:",error);
+      console.log("error msg 1:",error.response);
+      
+    }
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-8 mt-10">
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
         Preview of Components
       </h1>
+     
 
       {addedComponents.length === 0 ? (
         <p className="text-center text-gray-600">No components added yet.</p>
@@ -64,43 +97,36 @@ const PreviewPage = () => {
           switch (component.componentType) {
             case "pageTitle":
               return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-                      <PageTitleComponent />;
+                      <PageTitleComponent />
                      </div>
               
             case "button":
               return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-                    <ButtonFormComponent />;
+                    <ButtonFormComponent />
                     </div>
 
             case "callToAsk":
               return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-              <CallToAskComponent />;
+              <CallToAskComponent />
               </div>
 
             case "image":
               return (
-                <ImageComponent
-                  key={index}
-                  imageSrc={component.imageSrc}
-                  formData={{
-                    altText: component.altText, // Optional
-                    width: component.width, // Optional
-                    height: component.height, // Optional
-                    shadow: component.shadow, // Optional
-                  }}
-                />
+              <div key={index} >
+                  <ImageComponent />
+              </div>
               );
 
             case "contactCard":
-              return <ContactCardComponent key={index} formData={component} />;
+              return <ContactCardComponent key={index} formData={component} />
 
             case "registeredCard":
-              return <RegisteredCardComponent key={index} formData={component} />;
+              return <RegisteredCardComponent key={index} formData={component} />
               
             case "map":
               return (
                 <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
-                  <MapComponent formData={component} />
+                  <MapComponent />
                 </div>
               );
 
@@ -125,9 +151,44 @@ const PreviewPage = () => {
                 </div>
               );
             default:
-              return null;
+              return null
           }
         })
+      )}
+     
+
+      {isPopupVisible && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 lg:p-10 w-11/12 sm:max-w-md md:max-w-lg lg:max-w-xl">
+            <h2 className="text-xl font-semibold mb-4">Enter Component Name</h2>
+            <input
+              type="text"
+              value={componentName}
+              onChange={handleComponentNameChange}
+              placeholder="Component Name"
+              className="border border-gray-300 p-2 rounded w-full mb-4"
+            />
+            {error && <p className="text-red-500 mb-4">{error}</p>}
+            <div className="flex flex-col sm:flex-row justify-between">
+              
+              <button
+                onClick={()=>{setIsPopupVisible(false);
+                              setComponentName('');
+                              setError('');
+                }}
+                className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-2 sm:mb-0"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       <div className="text-center pt-10 flex gap-2">
@@ -138,6 +199,7 @@ const PreviewPage = () => {
           Edit
         </button>
         <button
+        onClick={handleSaveConfiguratoin}
         className="bg-green-600 text-white p-3 rounded-md shadow-md hover:bg-green-800 transition duration-200"
         >
           Save Component

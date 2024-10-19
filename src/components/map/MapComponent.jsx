@@ -7,6 +7,7 @@ import L from "leaflet";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import useComponentStore from "../../store/useComponentStore";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -15,18 +16,20 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-const MapComponent = ({ formData }) => {
-  const { lat, lng, zoom, width, height, markerText } = formData;
+const MapComponent = () => {
+  
+  const mapData = useComponentStore( state => state.mapData);
+  
 
   return (
-    <div style={{ width, height }}>
-      <MapContainer center={[lat, lng]} zoom={zoom} style={{ width: "100%", height: "100%" }}>
+    <div style={{ width : mapData.width, height: mapData.height }}>
+      <MapContainer center={[mapData.lat, mapData.lng]} zoom={mapData.zoom} style={{ width: "100%", height: "100%" }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Marker position={[lat, lng]}>
-          <Popup>{markerText}</Popup>
+        <Marker position={[mapData.lat, mapData.lng]}>
+          <Popup>{mapData.markerText}</Popup>
         </Marker>
       </MapContainer>
     </div>

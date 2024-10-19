@@ -14,14 +14,14 @@ const ImageUpload = () => {
     if (file) {
   
       setImageData({
-        imageSrc:file, // Set the image source in the store
+        imageSrc:file, 
       });
     }
   };
 
   const handleImageRemove = () => {
     setImageData({
-      imageSrc: null, // Reset the image source in the store
+      imageSrc: null, 
     });
     if (fileInputRef.current) {
       fileInputRef.current.value = ''; // Reset the input file field
@@ -36,12 +36,12 @@ const ImageUpload = () => {
             <button
               type="button"
               className="absolute top-3 right-3 border-2 border-gray-300 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer transition duration-300 hover:bg-red-600 "
-              onClick={handleImageRemove} // Remove image when clicking 'X'
+              onClick={handleImageRemove} 
             >
               X
             </button>
             <img
-              src={URL.createObjectURL(imageData.imageSrc)} // Use imageData.imageSrc from the store
+              src={URL.createObjectURL(imageData.imageSrc)} 
               alt="Profile"
               className="rounded-full w-9/12 h-9/12 object-cover "
             />
@@ -53,7 +53,7 @@ const ImageUpload = () => {
           type="file"
           accept="image/*"
           onChange={handleImageUpload}
-          ref={fileInputRef} // Attach the ref to the input
+          ref={fileInputRef}
         />
       </div>
     </div>
