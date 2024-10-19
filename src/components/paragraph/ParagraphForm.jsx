@@ -1,15 +1,14 @@
+import React from 'react';
 import useComponentStore from "../../store/useComponentStore";
 
-
 const ParagraphForm = () => {
+  const paragraphData = useComponentStore(state => state.paragraphData);
+  const setParagraphData = useComponentStore(state => state.setParagraphData);
 
-  const paragraphData = useComponentStore( state => state.paragraphData);
-  const setParagraphData = useComponentStore( state => state.setParagraphData);
-
-  const handleInputChange = (e)=>{
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setParagraphData({ ...paragraphData, [name] : value });
-  }
+    setParagraphData({ ...paragraphData, [name]: value });
+  };
 
   return (
     <div className="mb-4">

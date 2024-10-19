@@ -11,78 +11,82 @@ import {
   MapComponent,
   ParagraphComponent,
   ServiceCardComponent,
-  ServiceListComponent
+  ServiceListComponent,
 } from "../components";
 
 const PreviewPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [componentName, setComponentName] = useState('');
-  const [error, setError] = useState('');
+  const [componentName, setComponentName] = useState("");
+  const [error, setError] = useState("");
 
-  const { addedComponents, setSelectedComponent, setEditComponentIndex,setSelectedCardType } = useComponentStore();
+  const {
+    addedComponents,
+    setSelectedComponent,
+    setEditComponentIndex,
+    setSelectedCardType,
+  } = useComponentStore();
 
   const handleComponentNameChange = (e) => {
     setComponentName(e.target.value);
-    setError('');
+    setError("");
   };
 
-  const handleEdit = () =>{
-    navigate(-1)
+  const handleEdit = () => {
+    navigate(-1);
     // console.log(addedComponents);
-    if(addedComponents.length === 0 ){
-      alert("you have not added any component.")
+    if (addedComponents.length === 0) {
+      alert("you have not added any component.");
     }
-  
-    const componentToEdit = addedComponents[addedComponents.length-1];
-    
-    console.log(componentToEdit.componentType)
-  
+
+    const componentToEdit = addedComponents[addedComponents.length - 1];
+
+    console.log(componentToEdit.componentType);
+
     if (componentToEdit.componentType === "contactCard") {
       setSelectedCardType(componentToEdit.componentType);
-    }else if (componentToEdit.componentType === "registeredCard") {
+    } else if (componentToEdit.componentType === "registeredCard") {
       setSelectedCardType(componentToEdit.componentType);
-    }else if (componentToEdit.componentType === "serviceCard") {
+    } else if (componentToEdit.componentType === "serviceCard") {
       setSelectedCardType(componentToEdit.componentType);
-    }else {
+    } else {
       setSelectedComponent(componentToEdit.componentType);
     }
-    setEditComponentIndex(addedComponents.length-1);
+    setEditComponentIndex(addedComponents.length - 1);
   };
 
-  const handleSaveConfiguratoin = ()=>{
+  const handleSaveConfiguratoin = () => {
     setIsPopupVisible(true);
     // navigate(-1);
     // setEditComponentIndex(-1);
     // setSelectedComponent('');
-  }
+  };
 
-  const handleSave = async () =>{
+  const handleSave = async () => {
     try {
-      const response= await axios.get("/api/component/nameCheck");
-      console.log("error 1:",response.data);
-      if(response.data){
-        setError('Component name already exists.');
+      const response = await axios.get("/api/component/nameCheck");
+      console.log("error 1:", response.data);
+      if (response.data) {
+        setError("Component name already exists.");
       } else {
         try {
           const res = await axios.post("api/toSave/componentConfig");
-        console.log("error 2:",res.data);
-        alert('Component saved successfully!');
-        setIsPopupVisible(false);
-        setComponentName('');
+          console.log("error 2:", res.data);
+          alert("Component saved successfully!");
+          setIsPopupVisible(false);
+          setComponentName("");
         } catch (error) {
-          console.log("error msg 1:",error);
-          console.log("error msg 2:",error.response);
-          console.log("error msg 3:",error.response.data);
+          console.log("error msg 1:", error);
+          console.log("error msg 2:", error.response);
+          console.log("error msg 3:", error.response.data);
         }
       }
     } catch (error) {
-      console.log("error msg 1:",error);
-      console.log("error msg 1:",error.response);
+      console.log("error msg 1:", error);
+      console.log("error msg 1:", error.response);
     }
   };
-
 
   return (
     <div className="max-w-6xl mx-auto p-8 mt-10">
@@ -96,62 +100,89 @@ const PreviewPage = () => {
         addedComponents.map((component, index) => {
           switch (component.componentType) {
             case "pageTitle":
-              return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-                      <PageTitleComponent />
-                     </div>
-              
+              return (
+                <div
+                  key={index}
+                  className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner"
+                >
+                  <PageTitleComponent />
+                </div>
+              );
+
             case "button":
-              return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-                    <ButtonFormComponent />
-                    </div>
+              return (
+                <div
+                  key={index}
+                  className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner"
+                >
+                  <ButtonFormComponent />
+                </div>
+              );
 
             case "callToAsk":
-              return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
-              <CallToAskComponent />
-              </div>
+              return (
+                <div
+                  key={index}
+                  className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner"
+                >
+                  <CallToAskComponent />
+                </div>
+              );
 
             case "image":
               return (
-                <div key={index} >
+                <div key={index}>
                   <ImageComponent />
                 </div>
               );
 
             case "contactCard":
-              return <ContactCardComponent key={index} />
+              return <ContactCardComponent key={index} />;
 
             case "registeredCard":
-              return <RegisteredCardComponent key={index}  />
-              
+              return <RegisteredCardComponent key={index} />;
+
             case "map":
               return (
-                <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
+                <div
+                  key={index}
+                  className="mb-8 p-6 bg-white rounded-lg shadow-inner"
+                >
                   <MapComponent />
                 </div>
               );
 
             case "paragraph":
               return (
-                <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
+                <div
+                  key={index}
+                  className="mb-8 p-6 bg-white rounded-lg shadow-inner"
+                >
                   <ParagraphComponent />
                 </div>
               );
 
             case "serviceCard":
               return (
-                <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
+                <div
+                  key={index}
+                  className="mb-8 p-6 bg-white rounded-lg shadow-inner"
+                >
                   <ServiceCardComponent />
                 </div>
               );
 
             case "serviceList":
               return (
-                <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
+                <div
+                  key={index}
+                  className="mb-8 p-6 bg-white rounded-lg shadow-inner"
+                >
                   <ServiceListComponent />
                 </div>
               );
             default:
-              return null
+              return null;
           }
         })
       )}
@@ -168,11 +199,11 @@ const PreviewPage = () => {
             />
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <div className="flex flex-col sm:flex-row justify-between">
-
               <button
-                onClick={()=>{setIsPopupVisible(false);
-                              setComponentName('');
-                              setError('');
+                onClick={() => {
+                  setIsPopupVisible(false);
+                  setComponentName("");
+                  setError("");
                 }}
                 className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
               >
@@ -187,7 +218,7 @@ const PreviewPage = () => {
             </div>
           </div>
         </div>
-      )} 
+      )}
 
       <div className="text-center pt-10 flex gap-2">
         <button
@@ -197,8 +228,8 @@ const PreviewPage = () => {
           Edit
         </button>
         <button
-        onClick={handleSaveConfiguratoin}
-        className="bg-green-600 text-white p-3 rounded-md shadow-md hover:bg-green-800 transition duration-200"
+          onClick={handleSaveConfiguratoin}
+          className="bg-green-600 text-white p-3 rounded-md shadow-md hover:bg-green-800 transition duration-200"
         >
           Save Component
         </button>

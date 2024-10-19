@@ -18,7 +18,6 @@ const ImageComponent = () => {
           >
           </img>
      </div>
-
     </div>
   );
 };

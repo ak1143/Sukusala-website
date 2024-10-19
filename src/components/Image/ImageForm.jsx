@@ -6,13 +6,9 @@ const ImageForm = () => {
   const setImageData = useComponentStore((state) => state.setImageData);
   const imageData = useComponentStore((state) => state.imageData);
 
-
-
-
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-
-    setImageData({
+       setImageData({
       ...imageData, // Spread the current imageData object
       [name]: type === 'checkbox' ? checked : value, // Update the field dynamically
     });
@@ -51,3 +47,5 @@ const ImageForm = () => {
     </div>
   );
 };
+
+export default ImageForm
