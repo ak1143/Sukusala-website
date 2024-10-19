@@ -1,6 +1,16 @@
+import useComponentStore from "../../store/useComponentStore";
 
 
-const ServiceCardForm = ({ formData, handleInputChange }) => {
+const ServiceCardForm = () => {
+
+  const serviceCardData = useComponentStore(state => state.serviceCardData);
+  const setServiceCardData = useComponentStore( state => state.setServiceCardData);
+
+  const handleInputChange = (e)=>{
+    const {name , value} = e.target;
+    setServiceCardData({ ...serviceCardData, [name] :value })
+  }
+
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-bold mb-2">Service Card</h2>
@@ -10,7 +20,7 @@ const ServiceCardForm = ({ formData, handleInputChange }) => {
         <input
           type="text"
           name="title"
-          value={formData.title}
+          value={serviceCardData.title}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           required
@@ -22,7 +32,7 @@ const ServiceCardForm = ({ formData, handleInputChange }) => {
         <input
           type="text"
           name="description"
-          value={formData.description}
+          value={serviceCardData.description}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
@@ -33,7 +43,7 @@ const ServiceCardForm = ({ formData, handleInputChange }) => {
         <input
           type="text"
           name="icon"
-          value={formData.icon}
+          value={serviceCardData.icon}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
@@ -44,7 +54,7 @@ const ServiceCardForm = ({ formData, handleInputChange }) => {
         <input
           type="color"
           name="backgroundColor"
-          value={formData.backgroundColor}
+          value={serviceCardData.backgroundColor}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
@@ -55,7 +65,7 @@ const ServiceCardForm = ({ formData, handleInputChange }) => {
         <input
           type="color"
           name="textColor"
-          value={formData.textColor}
+          value={serviceCardData.textColor}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />

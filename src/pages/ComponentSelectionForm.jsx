@@ -139,7 +139,7 @@ const ComponentSelection = () => {
         break;
   
       case "image":
-        if (!imageData.imageSrc || !imageData.altText) {
+        if (!imageData.imageSrc) {
           alert("Please fill out all Image fields.");
           return;
         }
@@ -200,6 +200,7 @@ const ComponentSelection = () => {
   };
 
   const handleUpdateComponent =()=>{
+    setSelectedCardType('')
     setSelectedComponent("");
     setEditComponentIndex(-1);
   }

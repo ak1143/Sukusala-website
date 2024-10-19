@@ -1,63 +1,53 @@
 import React from 'react';
+import ImageUpload from "./ImageUpload";
+import useComponentStore from '../../store/useComponentStore';
 
-const ImageForm = ({ formData, handleInputChange, handleImageUpload }) => {
+const ImageForm = () => {
+  const setImageData = useComponentStore((state) => state.setImageData);
+  const imageData = useComponentStore((state) => state.imageData);
+
+
+
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    setImageData({
+      ...imageData, // Spread the current imageData object
+      [name]: type === 'checkbox' ? checked : value, // Update the field dynamically
+    });
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-2">Image</h2>
-      <label>Upload Image</label>
+      <ImageUpload/>
+      <label className="block mb-2 text-lg font-medium text-gray-700">Width:</label>
       <input
-        type="file"
-        name='imageSrc'
-        accept="image/*"
-        onChange={handleImageUpload}
-        className="border p-2 mb-4 w-full"
+        type="number"
+        name="width"
+        value={imageData.width}
+        onChange={handleInputChange}
+        className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm"
       />
-      <div className="mb-4">
-        <label>Image Width (px)</label>
+      <label className="block mb-2 text-lg font-medium text-gray-700">Height:</label>
+      <input
+        type="number"
+        name="height"
+        value={imageData.height}
+        onChange={handleInputChange }
+        className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm"
+      />
+      <label className="inline-flex items-center">
         <input
-          type="number"
-          name="width"
-          value={formData.width}
-          onChange={handleInputChange}
-          className="border p-2 mb-2 w-full"
-          placeholder="Enter width in pixels"
-        />
-      </div>
-      <div className="mb-4">
-        <label>Image Height (px)</label>
-        <input
-          type="number"
-          name="height"
-          value={formData.height}
-          onChange={handleInputChange}
-          className="border p-2 mb-2 w-full"
-          placeholder="Enter height in pixels"
-        />
-      </div>
-      <div className="mb-4">
-        <label>Alt Text</label>
-        <input
-          type="text"
-          name="altText"
-          value={formData.altText}
-          onChange={handleInputChange}
-          className="border p-2 mb-2 w-full"
-          placeholder="Enter alt text for the image"
-        />
-      </div>
-      <div className="mb-4">
-        <label>Shadow</label>
-        <input
-          type="text"
+          type="checkbox"
           name="shadow"
-          value={formData.shadow}
-          onChange={handleInputChange}
-          className="border p-2 mb-2 w-full"
-          placeholder="Enter shadow properties (e.g., 0px 4px 10px rgba(0,0,0,0.5))"
+          checked={imageData.shadow}
+          onChange={handleInputChange }
+          className="form-checkbox"
         />
-      </div>
+        <span className="ml-2">Apply Shadow</span>
+      </label>
     </div>
   );
 };
-
-export default ImageForm;

@@ -1,7 +1,11 @@
+import useComponentStore from "../../store/useComponentStore";
 
 
-const ServiceCardComponent = ({ formData }) => {
-  const { title, description, icon, backgroundColor, textColor } = formData;
+const ServiceCardComponent = () => {
+
+  const serviceCardData = useComponentStore(state => state.serviceCardData)
+
+  const { title, description, icon, backgroundColor, textColor } = serviceCardData;
 
   return (
     <div

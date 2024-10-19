@@ -8,6 +8,8 @@ const ButtonFormComponent = () => {
     return (
         <button
             style={{
+                height :"auto",
+                width : "auto",
                 backgroundColor: buttonData.buttonColor,
                 color: buttonData.fontColor,
                 fontSize: `${buttonData.fontSize}px`,

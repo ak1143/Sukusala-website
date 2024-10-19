@@ -20,11 +20,10 @@ const useComponentStore = create((set) => ({
     textAlign: 'left',
   },
   imageData: {
+    imageSrc:null,
     width: '',
     height: '',
-    altText: '',
-    shadow: '',
-    imageSrc: '',
+    shadow: false,
   },
   contactCardData: {
     text: '',
@@ -117,11 +116,10 @@ const useComponentStore = create((set) => ({
       textAlign: 'left',
     },
     imageData: {
+      imageSrc:null,
       width: '',
       height: '',
-      altText: '',
-      shadow: '',
-      imageSrc: '',
+      shadow: false,
     },
     contactCardData: {
       text: '',

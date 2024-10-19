@@ -7,7 +7,7 @@ const RegisteredCardComponent = () => {
 
   return (
     <div
-      className="p-4 rounded-lg"
+      className="p-4 rounded-lg h-max w-max"
       style={{
         backgroundColor: backgroundColor,
         color: textColor,

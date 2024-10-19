@@ -8,7 +8,7 @@ const ContactCardComponent = () => {
 
   return (
     <div
-      className="p-8 rounded-lg text-center"
+      className="p-5 rounded-lg text-center h-min w-min"
       style={{
         backgroundColor: backgroundColor || "#D9752D", // Use a default color similar to the image
         color: textColor || "#fff",
