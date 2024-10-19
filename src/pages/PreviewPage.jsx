@@ -43,7 +43,6 @@ const PreviewPage = () => {
       setSelectedCardType(componentToEdit.componentType);
     }
     setEditComponentIndex(addedComponents.length-1);
-    
   };
 
   const handleSaveConfiguratoin = ()=>{
@@ -51,7 +50,6 @@ const PreviewPage = () => {
     // navigate(-1);
     // setEditComponentIndex(-1);
     // setSelectedComponent('');
-    
   }
   const handleSave = async () =>{
     try {
@@ -118,10 +116,10 @@ const PreviewPage = () => {
               );
 
             case "contactCard":
-              return <ContactCardComponent key={index} formData={component} />
+              return <ContactCardComponent key={index} />
 
             case "registeredCard":
-              return <RegisteredCardComponent key={index} formData={component} />
+              return <RegisteredCardComponent key={index}  />
               
             case "map":
               return (
@@ -133,21 +131,21 @@ const PreviewPage = () => {
             case "paragraph":
               return (
                 <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
-                  <ParagraphComponent formData={component} />
+                  <ParagraphComponent />
                 </div>
               );
 
             case "serviceCard":
               return (
                 <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
-                  <ServiceCardComponent formData={component} />
+                  <ServiceCardComponent />
                 </div>
               );
 
             case "serviceList":
               return (
                 <div key={index} className="mb-8 p-6 bg-white rounded-lg shadow-inner">
-                  <ServiceListComponent servicesData={component} />
+                  <ServiceListComponent />
                 </div>
               );
             default:

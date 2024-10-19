@@ -1,4 +1,15 @@
-const ServiceListForm = ({ servicesData, handleInputChange, addService }) => {
+const ServiceListForm = () => {
+
+  const setServiceListData = useComponentStore( state => state.setServiceListData);
+  const serviceListData = useComponentStore( state => state.serviceListData);
+  const addService = ()=>{
+
+  }
+
+  const handleInputChange =()=>{
+    
+  }
+
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-bold mb-2">Service List Form</h2>

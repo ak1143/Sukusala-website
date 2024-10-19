@@ -1,6 +1,15 @@
 import React from "react";
+import useComponentStore from "../../store/useComponentStore";
 
-const RegisteredCardForm = ({ formData, handleInputChange }) => {
+const RegisteredCardForm = () => {
+  const registeredCardData = useComponentStore( state => state.registeredCardData);
+  const setRegisteredCardData = useComponentStore( state => state.setRegisteredCardData);
+
+  const handleInputChange = (e)=>{
+    const { name, value} = e.target;
+    setRegisteredCardData({ ...setRegisteredCardData, [name]: value})
+  }
+
   return (
     <div className="mb-4">
       <h2 className="text-2xl font-bold mb-2">Registered Card</h2>
@@ -9,7 +18,7 @@ const RegisteredCardForm = ({ formData, handleInputChange }) => {
         <input
           type="text"
           name="title"
-          value={formData.title}
+          value={registeredCardData.title}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           required
@@ -19,7 +28,7 @@ const RegisteredCardForm = ({ formData, handleInputChange }) => {
         Description:
         <textarea
           name="description"
-          value={formData.description}
+          value={registeredCardData.description}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           rows={4}
@@ -30,7 +39,7 @@ const RegisteredCardForm = ({ formData, handleInputChange }) => {
         <input
           type="text"
           name="buttonText"
-          value={formData.buttonText}
+          value={registeredCardData.buttonText}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
           required
@@ -41,7 +50,7 @@ const RegisteredCardForm = ({ formData, handleInputChange }) => {
         <input
           type="color"
           name="backgroundColor"
-          value={formData.backgroundColor}
+          value={registeredCardData.backgroundColor}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
@@ -51,7 +60,7 @@ const RegisteredCardForm = ({ formData, handleInputChange }) => {
         <input
           type="color"
           name="textColor"
-          value={formData.textColor}
+          value={registeredCardData.textColor}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
@@ -61,7 +70,7 @@ const RegisteredCardForm = ({ formData, handleInputChange }) => {
         <input
           type="number"
           name="fontSize"
-          value={formData.fontSize}
+          value={registeredCardData.fontSize}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
@@ -71,7 +80,7 @@ const RegisteredCardForm = ({ formData, handleInputChange }) => {
         <input
           type="color"
           name="buttonColor"
-          value={formData.buttonColor}
+          value={registeredCardData.buttonColor}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />
