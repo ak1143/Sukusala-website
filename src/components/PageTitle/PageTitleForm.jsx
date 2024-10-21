@@ -43,25 +43,29 @@ const PageTitleForm = () => {
       className="border p-2 mb-4 w-full"
     />
 
-    <label>Title Color</label>
+    <label className='mb-4'>Title Color</label>
+    <br />
     <input
       name="titleColor"
       type="color"
       value={pageTitleData.titleColor}
       onChange={handleChange}
-      className="border p-2 mb-4 w-full"
+      className="border mb-4"
     />
+    <br />
 
     <label>Subtitle Color</label>
+    <br />
     <input
       name="subtitleColor"
       type="color"
       value={pageTitleData.subtitleColor}
       onChange={handleChange}
-      className="border p-2 mb-4 w-full"
+      className="border mb-4"
     />
+     <br />
 
-    <label>Title Font Size</label>
+    <label>Title Text Size</label>
     <select
       name="titleFontSize"
       value={pageTitleData.titleFontSize}
@@ -73,7 +77,7 @@ const PageTitleForm = () => {
       <option value="text-2xl">Small</option>
     </select>
 
-    <label>Subtitle Font Size</label>
+    <label>Subtitle Text Size</label>
     <select
       name="subtitleFontSize"
       value={pageTitleData.subtitleFontSize}
@@ -86,10 +90,21 @@ const PageTitleForm = () => {
     </select>
 
     {/* Alignment Field */}
-    <label>Text Alignment</label>
+    <label>Title Alignment</label>
     <select
-      name="textAlign"
-      value={pageTitleData.textAlign}
+      name="titleAlign"
+      value={pageTitleData.titleAlign}
+      onChange={handleChange}
+      className="border p-2 mb-4 w-full"
+    >
+      <option value="left">Left</option>
+      <option value="center">Center</option>
+      <option value="right">Right</option>
+    </select>
+    <label>Subtitle Alignment</label>
+    <select
+      name="subtitleAlign"
+      value={pageTitleData.subtitleAlign}
       onChange={handleChange}
       className="border p-2 mb-4 w-full"
     >

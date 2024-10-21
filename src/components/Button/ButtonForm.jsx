@@ -42,7 +42,7 @@ const ButtonForm = () => {
                 className="border border-gray-300 mb-4"
             />
 
-            <label className="block mb-2 text-lg font-medium">Font Size (px):</label>
+            <label className="block mb-2 text-lg font-medium">Text Size (px):</label>
             <input
                 type="number"
                 name="fontSize"
@@ -52,7 +52,7 @@ const ButtonForm = () => {
                 placeholder="Enter font size"
             />
 
-            <label className="block mb-2 text-lg font-medium">Font Color:</label>
+            <label className="block mb-2 text-lg font-medium">Text Color:</label>
             <input
                 type="color"
                 name="fontColor"
@@ -71,7 +71,7 @@ const ButtonForm = () => {
                 placeholder="Enter border radius"
             />
 
-            <label className="block mb-2 text-lg font-medium">Padding (px):</label>
+            {/* <label className="block mb-2 text-lg font-medium">Padding (px):</label>
             <input
                 type="number"
                 name="padding"
@@ -89,9 +89,9 @@ const ButtonForm = () => {
                 onChange={handleInputChange}
                 className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter margin"
-            />
+            /> */}
 
-            <label className="block mb-2 text-lg font-medium">Text Alignment:</label>
+            {/* <label className="block mb-2 text-lg font-medium">Text Alignment:</label>
             <select
                 name="textAlignment"
                 value={buttonData.textAlignment}
@@ -102,7 +102,7 @@ const ButtonForm = () => {
                 <option value="left">Left</option>
                 <option value="center">Center</option>
                 <option value="right">Right</option>
-            </select>
+            </select> */}
         </div>
     );
 };

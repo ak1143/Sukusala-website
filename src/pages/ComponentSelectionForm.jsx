@@ -1,19 +1,19 @@
 
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useComponentStore from "../store/useComponentStore"; // Import the store
 import {
-  PageTitleForm,
-  ImageForm,
-  ContactCardForm,
-  CallToAskForm,
   ButtonForm,
-  RegisteredCardForm,
+  CallToAskForm,
+  ContactCardForm,
+  ImageForm,
   MapForm,
+  PageTitleForm,
   ParagraphForm,
+  RegisteredCardForm,
   ServiceCardForm,
   ServiceListForm,
 } from "../components/index";
+import useComponentStore from "../store/useComponentStore"; // Import the store
 
 const componentsList = [
   { id: "pageTitle", name: "Page Title" },
@@ -45,17 +45,6 @@ const ComponentSelection = () => {
     setSelectedComponent,
     setSelectedCardType,
     setEditComponentIndex,
-    setPageTitleData,
-    setImageData,
-    setContactCardData,
-    setCallToAskData,
-    setButtonData,
-    setRegisteredCardData,
-    setMapData,
-    setParagraphData,
-    setServiceCardData,
-    setServiceListData,
-    // resetStore,
     pageTitleData,
     contactCardData,
     registeredCardData,

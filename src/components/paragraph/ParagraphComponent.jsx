@@ -14,7 +14,7 @@ const ParagraphComponent = () => {
         padding: "20px",
         borderRadius: "8px",
       }}
-      className="shadow-md"
+      className="h-auto w-auto"
     >
       <h2
         style={{

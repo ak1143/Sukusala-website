@@ -46,32 +46,46 @@ const ContactCardForm = () => {
           required
         />
       </label>
-      <label className="block mb-2">
+      <label className="block ">
         Background Color:
+        <br />
         <input
           type="color"
           name="backgroundColor"
           value={contactCardData.backgroundColor}
           onChange={handleInputChange}
-          className="border rounded w-full p-2"
+          className="border rounded"
         />
       </label>
-      <label className="block mb-2">
+      <br />
+      <label className="block">
         Text Color:
+        <br />
         <input
           type="color"
           name="textColor"
           value={contactCardData.textColor}
           onChange={handleInputChange}
-          className="border rounded w-full p-2"
+          className="border rounded"
         />
       </label>
+      <br />
       <label className="block mb-2">
-        Font Size:
+        Text Size:
         <input
           type="number"
           name="fontSize"
           value={contactCardData.fontSize}
+          onChange={handleInputChange}
+          className="border rounded w-full p-2"
+        />
+      </label>
+      <label className="block mb-2">
+        Description Size:
+        <input
+          type="number"
+          name="descriptionSize"
+          value={contactCardData.descriptionSize}
           onChange={handleInputChange}
           className="border rounded w-full p-2"
         />

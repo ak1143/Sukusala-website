@@ -26,6 +26,7 @@ const PreviewPage = () => {
     setSelectedComponent,
     setEditComponentIndex,
     setSelectedCardType,
+    resetStore
   } = useComponentStore();
 
   const handleComponentNameChange = (e) => {
@@ -82,6 +83,7 @@ const PreviewPage = () => {
           console.log("error msg 3:", error.response.data);
         }
       }
+      resetStore()
     } catch (error) {
       console.log("error msg 1:", error);
       console.log("error msg 1:", error.response);

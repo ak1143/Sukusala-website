@@ -25,27 +25,30 @@ const ParagraphForm = () => {
         />
       </label>
 
-      <label className="block mb-2">
+      <label className="block">
         Background Color:
+        <br />
         <input
           type="color"
           name="backgroundColor"
           value={paragraphData.backgroundColor}
           onChange={handleInputChange}
-          className="border rounded w-full p-2"
+          className="border rounded"
         />
       </label>
-
+      <br />
       <label className="block mb-2">
         Text Color:
+        <br />
         <input
           type="color"
           name="textColor"
           value={paragraphData.textColor}
           onChange={handleInputChange}
-          className="border rounded w-full p-2"
+          className="border rounded"
         />
       </label>
+
 
       <label className="block mb-2">
         Font Size:

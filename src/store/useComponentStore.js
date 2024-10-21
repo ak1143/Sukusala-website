@@ -17,7 +17,8 @@ const useComponentStore = create((set) => ({
     subtitleFont: 'Arial',
     titleFontSize: 'text-4xl',
     subtitleFontSize: 'text-xl',
-    textAlign: 'left',
+    titleAlign: 'left',
+    subtitleAlign: 'left'
   },
 imageData: {
     imageSrc:null,
@@ -35,6 +36,7 @@ imageData: {
     backgroundColor: 'orange',
     textColor: 'white',
     fontSize: 16,
+    descriptionSize: 10 
   },
   callToAskData: {
     name: '',
@@ -57,11 +59,13 @@ imageData: {
   },
   registeredCardData: {
     title: '',
+    titleAlign:'left',
     description: '',
     buttonText: '',
     backgroundColor: '#ffffff',
     textColor: '#000000',
-    fontSize: 16,
+    titleSize: 16,
+    discriptionAndButtonSize : 20,
     buttonColor: '#ff7f00',
   },
   mapData: {
@@ -116,7 +120,8 @@ imageData: {
       subtitleFont: 'Arial',
       titleFontSize: 'text-4xl',
       subtitleFontSize: 'text-xl',
-      textAlign: 'left',
+      titleAlign: 'left',
+      subtitleAlign: 'left'
     },
     imageData: {
       imageSrc:null,
@@ -131,6 +136,7 @@ imageData: {
       backgroundColor: 'orange',
       textColor: 'white',
       fontSize: 16,
+      descriptionSize: 10 
     },
     callToAskData: {
       name: '',
@@ -153,11 +159,13 @@ imageData: {
     },
     registeredCardData: {
       title: '',
+      titleAlign:'left',
       description: '',
       buttonText: '',
       backgroundColor: '#ffffff',
       textColor: '#000000',
-      fontSize: 16,
+      titleSize: 16,
+      discriptionAndButtonSize : 20,
       buttonColor: '#ff7f00',
     },
     mapData: {
