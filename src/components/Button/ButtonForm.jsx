@@ -1,99 +1,77 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import useComponentStore from '../../store/useComponentStore';
 
 const ButtonForm = () => {
-    
+    const buttonData = useComponentStore(state => state.buttonData);
+    const setButtonData = useComponentStore(state => state.setButtonData);
+    const editing = true;
+
+    useEffect(() => {
+        console.log(buttonData);
+    }, [buttonData]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setButtonData({ ...buttonData, [name]: value }); // Updating the store with the new form values
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // You can implement handleEdit if needed or just log the buttonData here
+        console.log("Button Data Submitted: ", buttonData);
+    }
+
     return (
-        <div className="mb-6">
-            <label className="block mb-2 text-lg font-medium">Button Text:</label>
+        <form onSubmit={handleSubmit}>
+            <label>Button Text</label>
             <input
-                type="text"
                 name="buttonText"
-                value={formData.buttonText}
-                onChange={handleInputChange}
-                className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                value={buttonData.buttonText}
+                onChange={handleChange}
                 placeholder="Enter button text"
+                className="border p-2 mb-4 w-full"
             />
 
-            <label className="block mb-2 text-lg font-medium">Button Color:</label>
+            <label>Button Color</label>
             <input
-                type="color"
                 name="buttonColor"
-                value={formData.buttonColor}
-                onChange={handleInputChange}
-                className="border border-gray-300 mb-4"
-            />
-
-            <label className="block mb-2 text-lg font-medium">Background Color:</label>
-            <input
                 type="color"
-                name="backgroundColor"
-                value={formData.backgroundColor}
-                onChange={handleInputChange}
-                className="border border-gray-300 mb-4"
+                value={buttonData.buttonColor}
+                onChange={handleChange}
+                className="border p-2 mb-4 w-full"
             />
 
-            <label className="block mb-2 text-lg font-medium">Font Size (px):</label>
+            <label>Font Size (px)</label>
             <input
-                type="number"
                 name="fontSize"
-                value={formData.fontSize}
-                onChange={handleInputChange}
-                className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                type="number"
+                value={buttonData.fontSize}
+                onChange={handleChange}
                 placeholder="Enter font size"
+                className="border p-2 mb-4 w-full"
             />
 
-            <label className="block mb-2 text-lg font-medium">Font Color:</label>
+            <label>Font Color</label>
             <input
-                type="color"
                 name="fontColor"
-                value={formData.fontColor}
-                onChange={handleInputChange}
-                className="border border-gray-300 mb-4"
+                type="color"
+                value={buttonData.fontColor}
+                onChange={handleChange}
+                className="border p-2 mb-4 w-full"
             />
 
-            <label className="block mb-2 text-lg font-medium">Border Radius (px):</label>
+            <label>Border Radius (px)</label>
             <input
-                type="number"
                 name="borderRadius"
-                value={formData.borderRadius}
-                onChange={handleInputChange}
-                className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                type="number"
+                value={buttonData.borderRadius}
+                onChange={handleChange}
                 placeholder="Enter border radius"
+                className="border p-2 mb-4 w-full"
             />
 
-            <label className="block mb-2 text-lg font-medium">Padding (px):</label>
-            <input
-                type="number"
-                name="padding"
-                value={formData.padding}
-                onChange={handleInputChange}
-                className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="Enter padding"
-            />
-
-            <label className="block mb-2 text-lg font-medium">Margin (px):</label>
-            <input
-                type="number"
-                name="margin"
-                value={formData.margin}
-                onChange={handleInputChange}
-                className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="Enter margin"
-            />
-
-            <label className="block mb-2 text-lg font-medium">Text Alignment:</label>
-            <select
-                name="textAlignment"
-                value={formData.textAlignment}
-                onChange={handleInputChange}
-                className="border border-gray-300 p-3 mb-4 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
-                <option value="">Select alignment</option>
-                <option value="left">Left</option>
-                <option value="center">Center</option>
-                <option value="right">Right</option>
-            </select>
-        </div>
+            {editing && <button type="submit">Edit</button>}
+        </form>
     );
 };
 

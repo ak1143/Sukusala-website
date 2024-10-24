@@ -18,6 +18,8 @@ import ServiceCardComponent from "./ServiceCard/ServiceCardComponent";
 import ServiceCardForm from "./ServiceCard/ServiceCardForm";
 import ServiceListComponent from "./ServiceList/ServiceListComponent";
 import ServiceListForm from "./ServiceList/ServiceListForm";
+import CarouselComponent from "./carousel/CarouselComponent";
+import CarouselForm from "./carousel/CarouselForm";
 
 export {
     ImageComponent,
@@ -28,6 +30,8 @@ export {
     ContactCardForm,
     CallToAskComponent,
     CallToAskForm,
+    CarouselComponent,
+    CarouselForm,
     ButtonFormComponent,
     ContactCardComponent,
     RegisteredCardComponent,

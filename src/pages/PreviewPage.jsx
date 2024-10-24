@@ -11,7 +11,8 @@ import {
   MapComponent,
   ParagraphComponent,
   ServiceCardComponent,
-  ServiceListComponent
+  ServiceListComponent,
+  CarouselComponent,
 } from "../components"; // Ensure all components are imported correctly
 
 
@@ -65,6 +66,10 @@ const PreviewPage = () => {
             case "pageTitle":
               return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
                       <PageTitleComponent />;
+                     </div>
+            case "carousel":
+              return <div key={index} className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
+                      <CarouselComponent />;
                      </div>
               
             case "button":

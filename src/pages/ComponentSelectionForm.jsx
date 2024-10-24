@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useComponentStore from "../store/useComponentStore"; // Import the store
@@ -13,6 +12,7 @@ import {
   ParagraphForm,
   ServiceCardForm,
   ServiceListForm,
+  CarouselForm,
 } from "../components/index";
 
 const componentsList = [
@@ -20,6 +20,7 @@ const componentsList = [
   { id: "image", name: "Image" },
   { id: "card", name: "Cards" },
   { id: "callToAsk", name: "Call to Ask" },
+  { id: "carousel", name: "carousel" },
   { id: "button", name: "Button" },
   { id: "map", name: "Map" },
   { id: "paragraph", name: "Paragraph" },
@@ -34,7 +35,7 @@ const cardTypes = [
 
 const ComponentSelection = () => {
   const navigate = useNavigate();
-  
+
   // Use the Zustand store
   const {
     selectedComponent,
@@ -45,6 +46,7 @@ const ComponentSelection = () => {
     setSelectedComponent,
     setSelectedCardType,
     setEditComponentIndex,
+    setCarouselData,
     setPageTitleData,
     setImageData,
     setContactCardData,
@@ -63,6 +65,7 @@ const ComponentSelection = () => {
     imageData,
     callToAskData,
     buttonData,
+    carouselData,
     paragraphData
   } = useComponentStore();
 
@@ -71,24 +74,26 @@ const ComponentSelection = () => {
   // }, []);
 
   const handleComponentChange = (e) => {
+    console.log(e.target.value)
     setSelectedComponent(e.target.value);
   };
 
   const handleAddComponent = () => {
-    if (!selectedComponent) {
+    console.log(selectedComponent)
+    if (selectedComponent === '') {
       alert("Please select a component type.");
       return;
     }
-  
+
     let newComponent = {};
-  
+
     switch (selectedComponent) {
       case "card":
         if (!selectedCardType) {
           alert("Please select a card type.");
           return;
         }
-  
+
         switch (selectedCardType) {
           case "contactCard":
             if (!contactCardData.text || !contactCardData.description) {
@@ -100,7 +105,7 @@ const ComponentSelection = () => {
               componentType: selectedCardType,
             };
             break;
-  
+
           case "registeredCard":
             if (!registeredCardData.title || !registeredCardData.description) {
               alert("Please fill out all Registered Card fields.");
@@ -111,7 +116,7 @@ const ComponentSelection = () => {
               componentType: selectedCardType,
             };
             break;
-  
+
           case "serviceCard":
             if (!serviceCardData.title || !serviceCardData.description) {
               alert("Please fill out all Service Card fields.");
@@ -122,13 +127,13 @@ const ComponentSelection = () => {
               componentType: selectedCardType,
             };
             break;
-  
+
           default:
             alert("Unknown card type.");
             return;
         }
         break;
-  
+
       case "pageTitle":
         if (!pageTitleData.title || !pageTitleData.subtitle) {
           alert("Please fill out all Page Title fields.");
@@ -136,7 +141,23 @@ const ComponentSelection = () => {
         }
         newComponent = { ...pageTitleData, componentType: selectedComponent };
         break;
-  
+      case "carousel":
+        console.log(carouselData);
+        const isValidCarousels = carouselData.some(crsl => (
+          (!crsl.imageSrc || crsl.imageSrc === "") ||
+          (!crsl.altText || crsl.altText === "") ||
+          (!crsl.title || crsl.title === "") ||
+          (!crsl.description || crsl.description === "")
+        ));
+
+        if (isValidCarousels) {
+          alert("Please provide all the valid carousel details...!");
+          return;
+        }
+
+        newComponent = { carouselData, componentType: selectedComponent };
+        break;
+
       case "image":
         if (!imageData.imageSrc || !imageData.altText) {
           alert("Please fill out all Image fields.");
@@ -144,21 +165,22 @@ const ComponentSelection = () => {
         }
         newComponent = { ...imageData, componentType: selectedComponent };
         break;
-  
+
       case "callToAsk":
+        console.log("in switch, callToAskData:", callToAskData)
         if (
           !callToAskData.name ||
           !callToAskData.email ||
-          !callToAskData.phoneNumber ||
-          !callToAskData.inquiryType ||
-          !callToAskData.questions
+          !callToAskData.phone ||
+          !callToAskData.message ||
+          !callToAskData.address
         ) {
           alert("Please fill out all Call to Ask fields.");
           return;
         }
         newComponent = { ...callToAskData, componentType: selectedComponent };
         break;
-  
+
       case "button":
         if (!buttonData.buttonText) {
           alert("Please enter the button text.");
@@ -166,7 +188,7 @@ const ComponentSelection = () => {
         }
         newComponent = { ...buttonData, componentType: selectedComponent };
         break;
-  
+
       case "map":
         if (!mapData.lat || !mapData.lng) {
           alert("Please fill out all Map fields.");
@@ -174,7 +196,7 @@ const ComponentSelection = () => {
         }
         newComponent = { ...mapData, componentType: selectedComponent };
         break;
-  
+
       case "paragraph":
         if (!paragraphData.content) {
           alert("Please fill out all Paragraph fields.");
@@ -182,35 +204,36 @@ const ComponentSelection = () => {
         }
         newComponent = { ...paragraphData, componentType: selectedComponent };
         break;
-  
+
       default:
         alert("Unknown component type.");
         return;
     }
-  
+
     // Add the new component to the state
+    console.log(newComponent);
     setAddedComponents(newComponent);
-  
+
     // Reset component selection
     setSelectedComponent(""); // Clear selected component
     setSelectedCardType("");  // Clear selected card type (if applicable)
   };
 
-  const handleUpdateComponent =()=>{
+  const handleUpdateComponent = () => {
 
     let updatedComponent = {};
     const EditComponent = addedComponents[editComponentIndex];
 
-    switch(EditComponent){
+    switch (EditComponent) {
       case "pageTitle":
-        updatedComponent = { ...EditComponent,...pageTitleData, componentType: EditComponent.componentType };
+        updatedComponent = { ...EditComponent, ...pageTitleData, componentType: EditComponent.componentType };
         break;
     }
     setSelectedComponent("");
     setEditComponentIndex(-1);
   }
-  
-  
+
+
 
   const handlePreview = () => {
     if (addedComponents.length === 0) {
@@ -220,7 +243,7 @@ const ComponentSelection = () => {
     navigate("/preview", { state: { components: addedComponents } });
   };
 
-  useEffect(()=>{console.log(addedComponents)},[addedComponents])
+  useEffect(() => { console.log(addedComponents) }, [addedComponents])
 
   return (
     <div className="max-w-3xl mx-auto p-8 bg-gray-50 rounded-lg shadow-md mt-10">
@@ -268,7 +291,10 @@ const ComponentSelection = () => {
 
       {/* Render Forms Based on Selected Component */}
       {selectedComponent === "pageTitle" && (
-        <PageTitleForm  />
+        <PageTitleForm />
+      )}
+      {selectedComponent === "carousel" && (
+        <CarouselForm />
       )}
 
       {selectedComponent === "image" && (
@@ -289,7 +315,7 @@ const ComponentSelection = () => {
       )}
 
       {selectedComponent === "callToAsk" && (
-        <CallToAskForm />
+        <CallToAskForm onUpdateComponent={handleUpdateComponent} />
       )}
 
       {selectedComponent === "button" && (
@@ -301,17 +327,26 @@ const ComponentSelection = () => {
       )}
 
       {selectedComponent === "paragraph" && (
-        <ParagraphForm  />
+        <ParagraphForm />
       )}
 
       {selectedComponent === "serviceList" && (
-        <ServiceListForm  />
+        <ServiceListForm />
       )}
 
       {/* Action Buttons */}
       <div className="flex space-x-4 mt-8">
         <button
-          onClick={editComponentIndex === -1 ? handleAddComponent : handleUpdateComponent}
+          // onClick={editComponentIndex === -1 ? handleAddComponent : handleUpdateComponent}
+          onClick={() => {
+            console.log("editComponentIndex:", editComponentIndex);
+            if (editComponentIndex === -1) {
+              handleAddComponent();
+            }
+            else {
+              handleUpdateComponent();
+            }
+          }}
           className="bg-blue-600 text-white p-3 rounded-md shadow-md hover:bg-blue-700 transition duration-200 flex-1"
         >
           Add Component

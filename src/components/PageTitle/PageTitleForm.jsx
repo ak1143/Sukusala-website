@@ -22,8 +22,6 @@ const PageTitleForm = () => {
     handleEdit("pageTitle",pageTitleData);
   }
 
-
-
   return (
     <form onSubmit={handleSubmit}>
     <label>Title</label>

@@ -1,11 +1,11 @@
 // src/useStore.js
 
-import {create} from 'zustand';
+import { create } from 'zustand';
 
 const useComponentStore = create((set) => ({
   selectedComponent: '',
   addedComponents: [],
-  editing:false,
+  editing: false,
   selectedCardType: '',
   editComponentIndex: -1,
   pageTitleData: {
@@ -19,6 +19,16 @@ const useComponentStore = create((set) => ({
     subtitleFontSize: 'text-xl',
     textAlign: 'left',
   },
+
+  carouselData: [
+    {
+      imageSrc: '',
+      altText: '',
+      title: '',
+      description: '',
+    },
+  ],
+
   imageData: {
     width: '',
     height: '',
@@ -37,14 +47,9 @@ const useComponentStore = create((set) => ({
   callToAskData: {
     name: '',
     email: '',
-    phoneNumber: '',
-    inquiryType: '',
-    questions: '',
-    icons: [],
+    message: "",
+    phone: '',
     address: '',
-    preferredContactTime: '',
-    additionalNotes: '',
-    attachment: null,
   },
   buttonData: {
     buttonText: '',
@@ -89,13 +94,20 @@ const useComponentStore = create((set) => ({
   setAddedComponents: (component) => set((state) => ({
     addedComponents: [...state.addedComponents, component]
   })),
-  setEditing : set((state) => ({ editing: !state?.editing })),
+  setEditing: set((state) => ({ editing: !state?.editing })),
   setSelectedCardType: (cardType) => set({ selectedCardType: cardType }),
   setPageTitleData: (data) => set((state) => ({ pageTitleData: { ...state.pageTitleData, ...data } })),
-  setEditComponentIndex : (index) => set({ editComponentIndex: index }),
+  setEditComponentIndex: (index) => set({ editComponentIndex: index }),
   setImageData: (data) => set((state) => ({ imageData: { ...state.imageData, ...data } })),
   setContactCardData: (data) => set((state) => ({ contactCardData: { ...state.contactCardData, ...data } })),
   setCallToAskData: (data) => set((state) => ({ callToAskData: { ...state.callToAskData, ...data } })),
+
+  setCarouselData: (data) => set((state) => {
+    console.log("state.carouselData:", state.carouselData);
+    console.log("data:", data);
+    return { carouselData: [...data] }
+  }),
+
   setButtonData: (data) => set((state) => ({ buttonData: { ...state.buttonData, ...data } })),
   setRegisteredCardData: (data) => set((state) => ({ registeredCardData: { ...state.registeredCardData, ...data } })),
   setMapData: (data) => set((state) => ({ mapData: { ...state.mapData, ...data } })),
